@@ -1,0 +1,29 @@
+package com.example.emmproject.app;
+
+import android.os.AsyncTask;
+
+import com.example.emmproject.core.http.EmmApis;
+
+import java.io.File;
+
+public class Constants {
+ public static final String DB_NAME="EMM.db";
+ public static final String PATH_CACHE= EmmApplication.getInstance().getCacheDir().getAbsolutePath() + File.separator + "data";
+ public static final int STSTUS_SUCCESS=1000;
+
+
+ public static final int COUPONTYPE_REDUCE=1; //满减卷
+ public static final int COUPONSTYPE_CASH=2;
+ public static final int COUPONSTYPE_FOOD=3;
+
+//这个是订单的四种状态
+ public static final int ORDER_STATUS_CANCEL=0;
+ public static final int ORDER_STATUS_WAIT=1;
+ public static final int ORDER_STATUS_PYA=2;
+ public static final int ORDER_STATUS_FINISH=3;
+//这个是客户端的tab 状态对应的int
+ public static final int ORDER_STATUS_ALL=0;
+ public static final int ORDER_STATUS_WAITTAKE=1;
+ public static final int ORDER_STATUS_BOOK=2;
+// AsyncTask
+}

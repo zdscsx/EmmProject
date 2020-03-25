@@ -1,0 +1,176 @@
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorPrimary"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:background="@color/colorPrimary"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height">
+
+
+    <ImageButton
+        android:background="@drawable/bg_button_press"
+        android:src="@mipmap/imageview_back"
+        android:id="@+id/ibt_toolbar_back"
+        android:layout_width="@dimen/toolbar_height"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/textview_size_big"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:text="zhouyinghong"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="1"/>
+    <LinearLayout
+        android:id="@+id/ly_userinfo_edit"
+        android:background="@drawable/bg_button_press"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:text="修改个人资料"
+            android:textColor="@color/black" />
+
+        <ImageView
+        android:layout_marginRight="10dp"
+        android:paddingLeft="10dp"
+        android:layout_gravity="center_vertical"
+        android:src="@mipmap/textview_edit"
+        android:layout_width="30dp"
+        android:layout_height="20dp"/>
+    </LinearLayout>
+</LinearLayout>
+<androidx.cardview.widget.CardView
+
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    app:cardCornerRadius="6dp"
+    app:cardBackgroundColor="@color/vip_color"
+    app:cardElevation="100dp"
+    app:cardMaxElevation="100dp"
+  >
+    <ImageView
+        android:src="@mipmap/imageview_vip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:text="0"
+            android:id="@+id/tv_userinfo_integral"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textview_size_max"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginRight="20dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toTopOf="@id/tv_userinfo_integral"
+            android:id="@+id/tv_userinfo_rule"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="查看规则 "
+            android:drawableRight="@mipmap/right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    
+</androidx.cardview.widget.CardView>
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="@dimen/textview_size_big"
+        android:textColor="@color/black"
+        android:text="会员权益"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rl_userinfo_birthday"
+            android:background="@drawable/bg_button_press"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_userinfo_birthday"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/imageview_birthday"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <TextView
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/iv_userinfo_birthday"
+                android:layout_centerHorizontal="true"
+                android:text="生日礼品卷"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_userinfo_year"
+            android:background="@drawable/bg_button_press"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_userinfo_year"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/imageview_anniversary"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <TextView
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/iv_userinfo_year"
+                android:layout_centerHorizontal="true"
+                android:text="周年庆礼品卷"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <View
+            android:src="@color/white"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="星星记录"
+        android:textColor="@color/black"
+        android:textSize="@dimen/textview_size_big"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"/>
+
+
+</LinearLayout>

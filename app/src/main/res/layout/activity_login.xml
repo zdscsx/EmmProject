@@ -1,0 +1,126 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/colorPrimary"
+    android:layout_height="match_parent">
+<include layout="@layout/toolbar"/>
+
+    <LinearLayout
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <TextView
+        android:textSize="25sp"
+        android:text="欢迎登陆美团"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:hint="请输入手机号"
+            android:id="@+id/et_login_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="30dp"
+            android:background="@null"
+            android:textColorHint="@color/grey"
+            android:textSize="16sp"
+            />
+        <View
+
+            android:layout_marginTop="10dp"
+            android:background="@color/grey_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1sp">
+
+        </View>
+
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:id="@+id/tv_login_tip"
+            android:layout_marginTop="10dp"
+            android:text="未注册的手机号验证后自动创建美团账户"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <RelativeLayout
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            android:id="@+id/rl_login_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <EditText
+            android:hint="请输入密码"
+            android:id="@+id/et_login_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="30dp"
+            android:background="@null"
+            android:textColorHint="@color/grey"
+            android:textSize="16sp"
+            />
+        <View
+            android:layout_below="@id/et_login_password"
+            android:layout_marginTop="10dp"
+            android:background="@color/grey_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1sp">
+
+        </View>
+        </RelativeLayout>
+    </LinearLayout>
+
+        <Button
+
+            android:clickable="false"
+            android:id="@+id/bt_login_login"
+            android:layout_marginTop="10dp"
+            android:text="获取短信验证码"
+            android:background="@drawable/bg_button_grey"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+        <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <TextView
+                android:id="@+id/tv_login_change"
+                android:layout_alignParentLeft="true"
+                android:text="密码登陆"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_login_question"
+                android:layout_alignParentRight="true"
+                android:text="遇到问题"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/tv_user_agreement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/login_margin"
+        android:layout_marginRight="@dimen/login_margin"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="登录即代表您已阅读并同意"
+        android:textSize="11sp" />
+</RelativeLayout>

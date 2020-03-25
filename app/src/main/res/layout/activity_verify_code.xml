@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/login_margin"
+        android:layout_marginRight="@dimen/login_margin"
+        android:layout_marginTop="60dp">
+
+        <TextView
+            android:id="@+id/tv_hint_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="验证码已发送至"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_hint_title"
+            android:layout_marginTop="40dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:id="@+id/tv_verify_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18665017312"
+                android:textSize="15sp" />
+
+            <com.example.emmproject.widget.TimeLimitView
+                android:id="@+id/tv_verify_send"
+                android:layout_width="80dp"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:textColor="@drawable/bg_timelimit_textcolor"
+                android:background="@drawable/bg_timelimit_tv"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="发送验证码"
+
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:minWidth="90dp"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <com.longer.verifyedittext.PhoneCode
+        android:id="@+id/code_verifyedit_verify"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:codeLength="6"
+        app:codeMargin="10dp"
+        app:codeStyle="1002"
+        app:codeTextColor="@color/black"
+        app:codeTextSize="24sp"
+        app:focusContentColor="#fff"
+        app:focusStrokeColor="#eb6951"
+        app:isNumber="false"
+        app:isShowPwd="false"
+        app:normalContentColor="#fff"
+        app:normalStrokeColor="#eee"
+        app:strokeSize="5dp"
+        app:tvHeight="45dp"
+        app:tvWidth="45dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_error_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="@dimen/login_margin"
+        android:layout_marginRight="@dimen/login_margin"
+        android:layout_marginTop="15dp"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:text="验证码有误"
+        android:textSize="11sp"
+        android:visibility="invisible" />
+
+
+
+
+</LinearLayout>

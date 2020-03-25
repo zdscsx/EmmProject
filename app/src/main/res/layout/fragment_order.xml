@@ -1,0 +1,160 @@
+<FrameLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+        <RelativeLayout
+            android:id="@+id/rl_order_search"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_search"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <TextView
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="   搜索"
+                android:drawableLeft="@mipmap/imageview_search"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_order_location"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="30dp">
+                <ImageButton
+                    android:background="@mipmap/imageview_start"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/ibt_order_start"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"/>
+                <TextView
+                    android:id="@+id/tv_order_location"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/ibt_order_start"
+                    android:text="越秀金融大厦充电站"
+                    android:textSize="@dimen/textview_size_small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/imageview_right"
+                    android:layout_toRightOf="@id/tv_order_location"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"/>
+            </RelativeLayout>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/tv_order_distance"
+                android:textSize="@dimen/textview_size_min"
+                android:layout_alignParentBottom="true"
+                android:layout_width="wrap_content"
+                android:text="距离你3.8km"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <com.kunminx.linkage.LinkageRecyclerView
+
+            android:id="@+id/lr_order_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ly_order_shopcard"
+
+        android:background="@color/transparent"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
+            android:id="@+id/rv_order_shoppcardlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <View
+                android:id="@+id/view_order_showshoppcard"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bg_button_shopcard"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <FrameLayout
+                android:layout_marginLeft="50dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp">
+
+
+                <ImageView
+                    android:id="@+id/iv_order_pag"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/imageview_bag"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+                <TextView
+                    android:id="@+id/tv_order_number"
+                    android:textColor="@color/white"
+                    android:text="0"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    android:layout_gravity="top|right"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@mipmap/imageview_circle"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"/>
+            </FrameLayout>
+
+            <Button
+                android:visibility="gone"
+                android:id="@+id/bt_order_pay"
+                android:textColor="@color/white"
+                android:text="结算"
+                android:background="@drawable/bg_button_pay"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_alignParentRight="true"/>
+            <TextView
+
+                android:gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="70dp"
+                android:textColor="@color/white"
+                android:text="请点单"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </LinearLayout>
+</FrameLayout>

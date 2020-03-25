@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:background="@color/colorPrimary"
+        android:text="我的"
+        android:textSize="@dimen/textview_size_big"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_centerInParent="true"
+        android:id="@+id/tv_title_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+    <LinearLayout
+        android:id="@+id/ly_mine_userinfo"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <ImageView
+            android:src="@mipmap/imageview_defaultavatar"
+            android:id="@+id/iv_mine_avater"
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <TextView
+                android:gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/tv_mine_name"
+                android:textSize="@dimen/textview_size_big"
+                android:textColor="@color/black"
+                android:maxLines="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_mine_integral"
+                android:maxLines="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <ImageView
+
+            android:tint="@color/black"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/imageview_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:text="我的鲲鹏悦行"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:id="@+id/ly_mine_coupons"
+        android:paddingLeft="10dp"
+        android:background="@drawable/bg_button_press"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mine_item_height">
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/imageview_discounts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textSize="@dimen/textview_size_normal"
+            android:textColor="@color/black"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center_vertical"
+            android:text="优惠卷"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/bg_button_press"
+        android:id="@+id/ly_mine_activity"
+        android:paddingLeft="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mine_item_height">
+        <ImageView
+            android:src="@mipmap/imageview_activity"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textSize="@dimen/textview_size_normal"
+            android:textColor="@color/black"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center_vertical"
+            android:text="活动"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mine_item_height">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>

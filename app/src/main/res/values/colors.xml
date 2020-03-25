@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorBackground">#EEEEEE</color>
+    <color name="colorText">#2C2C2C</color>
+    <color name="deep_grey">#e6e6e6</color>
+    <color name="dialog_background">#ffffff</color>
+    <color name="search_grey_gone">#bbbbbb</color>
+    <color name="color_gray_min">#ECEFF1</color>
+    <color name="blue1">#5C6BC0</color>
+    <color name="lightgreen"> #81C784</color>
+    //other
+    <color name="shallow_green">#FF36BC9B</color>
+    <color name="card_color">#202124</color>
+    <color name="not_network_bac">#33ffffff</color>
+    <color name="grey">#cccccc</color>
+
+    <color name="grey_bg">#EDEDED</color>
+    <color name="while_most_color">#e4e4e4</color>
+    <color name="blackish_green">#6D8FB0</color>
+    <color name="text_bg">#8F9AA8</color>
+    <color name="red">#FF3D00</color>
+    <!--通用触摸背景色-->
+    <color name="common_touch_bg">#E3E3E3</color>
+    <!--通用背景色-->
+    <color name="common_bg">@color/white</color>
+    <color name="button_can">#25D366</color>
+    <color name="button_useless">#E3E3E3 </color>
+    <color name="light_transparent">#00ffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="white">#FDFFFD</color>
+    <color name="light_white">#f4f0f0</color>
+    <color name="black">#212121</color>
+    <color name="little_black">#616161</color>
+    <color name="title_black">#222222</color>
+    <color name="white_title"> #F5F5F5</color>
+    <color name="grey_divider">#E5E5E5</color>
+    <color name="blue">#7196b1</color>
+    <color name="deep_blue">#0539be</color>
+    <color name="grey_bar">#ECECEC</color>
+    <color name="grey_popupwindow">#555</color>
+    <color name="grey_text_refresh">#aaa</color>
+    <color name="navigation_normal">#FF757575</color>
+    <color name="snackbarcolor"> #757575</color>
+    <color name="button_press">#21000000 </color>
+    <color name="grey_imageview">#aaa</color>
+    <color name="vip_color">#383830</color>
+
+<!--    DatepPicker-->
+    <color name="date_picker_bg">#FFFFFF</color>
+    <color name="date_picker_divider">#11112233</color>
+    <color name="date_picker_text_light">#59B29C</color>
+    <color name="date_picker_text_dark">#333333</color>
+
+    <color name="main_bg">#F0F0F0</color>
+    <color name="select_title_text">#B0B0B0</color>
+    <color name="current_time_bg">#FFFFFF</color>
+    <color name="current_time_text">#666666</color>
+    <color name="selected_time_text">#57C5E8</color>
+</resources>

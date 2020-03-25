@@ -1,0 +1,70 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@color/colorPrimary"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="0dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        >
+        <TextView
+            android:textSize="@dimen/textview_size_normal"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            android:text="广东工业大学充电桩"
+            android:id="@+id/tv_marklocatin_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"/>
+        <TextView
+            android:layout_marginTop="8dp"
+            android:text="广州市番禺区小谷围街道外环西路100号广东工业大学"
+            android:maxLines="2"
+            android:textSize="@dimen/textview_size_small"
+            android:id="@+id/tv_marklocatin_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="09:00~18:30"
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_marklocation_worktime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_gravity="center_vertical"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_alignParentTop="true"
+            android:id="@+id/iv_marklocation_go"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_button_press"
+            android:src="@mipmap/imageview_go"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+        <TextView
+            android:id="@+id/tv_marklocation_ditance"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:maxLines="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_marklocation_go"
+            android:text="距离3.8km"/>
+
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>
