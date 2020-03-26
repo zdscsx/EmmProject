@@ -1,4 +1,4 @@
-package com.example.emmproject.app;
+package com.example.emmproject.ui.order.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 public class ProductConfig implements ILinkageSecondaryAdapterConfig {
 
     private Context mContext;
-    OrderFragmentContract.ItemChangeCallback<ElemeGroupedItem> callback;
+    OrderFragmentContract.ItemChangeCallback<ShopCardFoodBean> callback;
     private ArrayList<ShopCardFoodBean> mShopCardList;  //购物车adapter里的arraylit
 
 
@@ -43,7 +43,7 @@ public class ProductConfig implements ILinkageSecondaryAdapterConfig {
         mContext=context;
     }
 
-    public void setCallback(OrderFragmentContract.ItemChangeCallback<ElemeGroupedItem> callback){
+    public void setCallback(OrderFragmentContract.ItemChangeCallback<ShopCardFoodBean> callback){
         this.callback=callback;
 
     }
@@ -71,7 +71,7 @@ public class ProductConfig implements ILinkageSecondaryAdapterConfig {
             TextView quantityTv=(TextView) holder.getView(R.id.tv_order_quantity);*/
 
             holder.itemView.setOnClickListener(o->
-                    new OrderDialog(mContext,(ElemeGroupedItem) item,mShopCardList).showOrderDialog());
+                    new OrderDialog(mContext,(ElemeGroupedItem) item,mShopCardList,callback).showOrderDialog());
     /*        if (((ElemeGroupedItem.ItemInfo) item.info).getQuantity()>0)
             { reduceButton  .setVisibility(View.VISIBLE);
                 quantityTv.setVisibility(View.VISIBLE);

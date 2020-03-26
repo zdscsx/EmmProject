@@ -1,11 +1,16 @@
 <FrameLayout
     android:orientation="vertical"
+    android:id="@+id/fl_order"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <!--  敲重点 这里的marginbottom对应的是下面shopcard的高度      -->
     <LinearLayout
+        android:layout_marginBottom="60dp"
+        android:layout_gravity="top"
         android:orientation="vertical"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
@@ -82,18 +87,42 @@
     </LinearLayout>
     <LinearLayout
         android:id="@+id/ly_order_shopcard"
-
         android:background="@color/transparent"
         android:layout_gravity="bottom"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+      <com.example.emmproject.widget.LimitSizeLinearLayout
+          android:id="@+id/ly_order_shopcardlist"
+          android:layout_width="match_parent"
+          android:visibility="gone"
+          android:paddingLeft="10dp"
+          android:paddingRight="10dp"
+          android:background="@drawable/bg_white_topradius"
+          app:maxHeight="400dp"
+          android:orientation="vertical"
+          android:layout_height="wrap_content">
+          <TextView
+              android:id="@+id/tv_order_clear"
+              android:layout_marginBottom="10dp"
+              android:layout_marginTop="10dp"
+              android:drawableLeft="@mipmap/rubbish"
+              android:layout_gravity="right"
+              android:textSize="@dimen/textview_size_min"
+              android:text="  清空购物车"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+          <View
+              android:background="@color/grey_divider"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/divider_height"/>
         <androidx.recyclerview.widget.RecyclerView
-            android:visibility="gone"
             android:id="@+id/rv_order_shoppcardlist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+      </com.example.emmproject.widget.LimitSizeLinearLayout>
 
+        <!--  敲重点 这里的shopcard的高度对应上面那层linearlayout的marginbottom     -->
 
         <RelativeLayout
             android:background="@color/white"
@@ -112,7 +141,6 @@
                 android:layout_marginLeft="50dp"
                 android:layout_width="60dp"
                 android:layout_height="60dp">
-
 
                 <ImageView
                     android:id="@+id/iv_order_pag"
@@ -156,5 +184,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
+
     </LinearLayout>
 </FrameLayout>

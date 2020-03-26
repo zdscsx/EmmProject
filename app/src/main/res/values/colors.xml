@@ -11,6 +11,7 @@
     <color name="color_gray_min">#ECEFF1</color>
     <color name="blue1">#5C6BC0</color>
     <color name="lightgreen"> #81C784</color>
+    <color name="translucence">#80777777 </color>
     //other
     <color name="shallow_green">#FF36BC9B</color>
     <color name="card_color">#202124</color>

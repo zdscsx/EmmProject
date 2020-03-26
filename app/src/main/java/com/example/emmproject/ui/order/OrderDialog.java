@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.emmproject.R;
+import com.example.emmproject.contract.history.OrderInfoContract;
+import com.example.emmproject.contract.order.OrderFragmentContract;
 import com.example.emmproject.core.bean.ElemeGroupedItem;
 import com.example.emmproject.core.bean.order.ShopCardFoodBean;
 import com.example.emmproject.core.bean.order.StoreFoodBean;
@@ -70,12 +72,14 @@ public class OrderDialog {
     private StoreFoodBean.FoodListBean.FoodOptionBean.OptionListBean.SelectionsBean bigSelection;
     private ShopCardFoodBean shopCardFoodBean;
     private ArrayList<ShopCardFoodBean> mShopCardFoodArrayList;
+    private  OrderFragmentContract.ItemChangeCallback<ShopCardFoodBean> mCallback;
 
 
-    public OrderDialog(Context mContext,ElemeGroupedItem elemeGroupedItem,ArrayList<ShopCardFoodBean> mShopCardFoodArrayList) {
-        this.mContext = mContext;
+    public OrderDialog(Context mContext, ElemeGroupedItem elemeGroupedItem, ArrayList<ShopCardFoodBean> mShopCardFoodArrayList, OrderFragmentContract.ItemChangeCallback callback) {
+         this.mContext = mContext;
          this.food=elemeGroupedItem;
          this.mShopCardFoodArrayList=mShopCardFoodArrayList;
+         mCallback=callback;
     }
 
 
@@ -83,11 +87,11 @@ public class OrderDialog {
     void onClick(View view){
         switch (view.getId()){
             case R.id.bt_orderdialog_add:
-                mQuantity=shopCardFoodBean.changeQuantity(true);
+                mCallback.onAddItem(shopCardFoodBean);
                 showQuantityAndPrice();
                 break;
             case R.id.bt_orderdialog_reduce:
-                mQuantity= shopCardFoodBean.changeQuantity(false);
+                mCallback.onReduceItem(shopCardFoodBean);
                 showQuantityAndPrice();
                 if (shopCardFoodBean.getQuantity()==0)//订单份数变为零.增减按钮消失
                 {   btAddShop.setVisibility(View.VISIBLE);

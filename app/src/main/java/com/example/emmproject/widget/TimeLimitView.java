@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-public class TimeLimitView extends TextView implements Runnable{
+public class    TimeLimitView extends TextView implements Runnable{
     /** 倒计时秒数 */
     private int mTotalSecond = 60;
     /** 秒数单位文本 */

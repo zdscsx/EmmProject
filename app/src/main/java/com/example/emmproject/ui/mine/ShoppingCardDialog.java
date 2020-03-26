@@ -1,4 +1,4 @@
-package com.example.emmproject.ui.dialogFragment;
+package com.example.emmproject.ui.mine;
 
 import android.app.Dialog;
 import android.os.Bundle;

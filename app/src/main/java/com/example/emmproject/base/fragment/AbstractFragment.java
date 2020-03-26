@@ -21,8 +21,6 @@ public abstract class AbstractFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(getLayoutId(),container,false);
-
-
         unbinder= ButterKnife.bind(this,view);
         initView();
         initEventAndData();

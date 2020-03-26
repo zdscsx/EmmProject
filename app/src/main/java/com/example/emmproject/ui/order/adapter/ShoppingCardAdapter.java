@@ -34,9 +34,9 @@ public class ShoppingCardAdapter extends RecyclerView.Adapter<ShoppingCardAdapte
 
     private   ArrayList<ShopCardFoodBean> shoplist;
     private Context mContext;
-    private OrderFragmentContract.ItemChangeCallback<ElemeGroupedItem> callback;
+    private OrderFragmentContract.ItemChangeCallback<ShopCardFoodBean> callback;
 
-    public void setCallback(OrderFragmentContract.ItemChangeCallback<ElemeGroupedItem> callback) {
+    public void setCallback(OrderFragmentContract.ItemChangeCallback<ShopCardFoodBean> callback) {
         this.callback = callback;
     }
 
@@ -76,17 +76,14 @@ public class ShoppingCardAdapter extends RecyclerView.Adapter<ShoppingCardAdapte
         holder.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               item.changeQuantity(true);
-                holder.costTv.setText(Double.parseDouble(item.getFoodListBean().getPrice())*item.getQuantity()+"");
+                callback.onAddItem(item);
             }
         });
         holder.reduceBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                item.changeQuantity(false);
-                holder.costTv.setText(Double.parseDouble(item.getFoodListBean().getPrice())*item.getQuantity()+"");
-                if (item.getQuantity()<=0)
-                    shoplist.remove(item);
+               callback.onReduceItem(item);
+
             }
         });
 
