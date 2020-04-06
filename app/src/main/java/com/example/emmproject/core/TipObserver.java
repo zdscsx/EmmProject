@@ -42,9 +42,10 @@ public class TipObserver<T> extends BaseObserver<T> {
     @Override
     public void onFail(String cause) {
         super.onFail(cause);
-        if(view!=null){
-            view.showErrorMessage(cause);
-        }
+        if(mMessage!=null){
+            view.showErrorMessage(mMessage);
+        }else
+            view.showToast(cause);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.emmproject.core.bean.mine;
 
+import com.example.emmproject.app.Constants;
 import com.google.gson.Gson;
 
 import org.greenrobot.greendao.annotation.Entity;
@@ -99,6 +100,9 @@ public static final long serialVersionUID=536871008;
     }
     public String getIntegral() {
         return this.integral;
+    }
+    public boolean isMan(){
+        return gender== Constants.SEX_MAN;
     }
     public void setIntegral(String integral) {
         this.integral = integral;

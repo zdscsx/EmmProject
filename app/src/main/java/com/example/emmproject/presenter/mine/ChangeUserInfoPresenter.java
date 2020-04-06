@@ -24,7 +24,6 @@ public class ChangeUserInfoPresenter extends BasePresenter<ChangeUserInfoContrac
 
     @Override
     public void uploadPic(LocalMedia pic) {
-       mView.showWaiting();
        addSubscribe(dataManager.changePic(pic).compose(RxUtils.rxSchedulerHelper())
                .subscribeWith(new TipObserver<String>(mView){
                    @Override
@@ -35,12 +34,10 @@ public class ChangeUserInfoPresenter extends BasePresenter<ChangeUserInfoContrac
                        user.setAvatar(stringBaseResponse.getData());
                        dataManager.saveUser(user);
                        mView.showUser(user);
-                       mView.cancelWaiting();
                    }
 
                    @Override
                    public void onFail(String cause) {
-                       mView.cancelWaiting();
                        super.onFail(cause);
                    }
                }));
@@ -48,10 +45,12 @@ public class ChangeUserInfoPresenter extends BasePresenter<ChangeUserInfoContrac
 
     @Override
     public void getUser() {
-        addSubscribe(dataManager.getUserFormHttp().compose(RxUtils.rxSchedulerHelper()).subscribeWith(new TipObserver<User>(mView){
+        addSubscribe(dataManager.getUserFormHttp().compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new TipObserver<User>(mView){
             @Override
             public void onSucceed(BaseResponse<User> userBaseResponse) {
                 mView.showUser(userBaseResponse.getData());
+
             }
 
         }));
@@ -59,19 +58,26 @@ public class ChangeUserInfoPresenter extends BasePresenter<ChangeUserInfoContrac
 
     @Override
     public void changeUserInfo(User user) {
-        addSubscribe(dataManager.changeInfo(user).compose(RxUtils.rxSchedulerHelper())
-        .subscribeWith(new TipObserver<User>(mView){
+
+        User user1=new User();
+        user1.setUsername(user.getUsername());
+        user1.setUserId(user.getUserId());
+        user1.setGender(user.getGender());
+        user1.setBirthday(user.getBirthday());
+
+        addSubscribe(dataManager.changeInfo(user1).compose(RxUtils.rxSchedulerHelper())
+        .subscribeWith(new TipObserver<User>(mView,"更新用户信息失败"){
             @Override
             public void onSucceed(BaseResponse<User> userBaseResponse) {
                 super.onSucceed(userBaseResponse);
-                dataManager.saveUser(userBaseResponse.getData());
-                mView.showUser(userBaseResponse.getData());
+               dataManager.saveUser(user1);
+               mView.showUser(user1);
             }
 
             @Override
             public void onFail(String cause) {
                 super.onFail(cause);
-                mView.showToast("更新用户信息失败");
+                mView.showUser(dataManager.getUser());//更新失败显示数据库中的user
             }
         }));
     }

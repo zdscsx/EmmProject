@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
+    android:layout_margin="5dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     app:cardBackgroundColor="@color/common_bg"
     app:cardMaxElevation="5dp"
+    app:cardCornerRadius="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:padding="10dp"
+        android:padding="8dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_width="match_parent"
@@ -24,7 +28,7 @@
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/tv_couponslist_validtime"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_couponslist_name"
             android:textSize="@dimen/textview_size_min"
@@ -32,15 +36,7 @@
             android:maxLines="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <TextView
-            android:text="1.8"
-            android:id="@+id/tv_couponslist_discounts"
-            app:layout_constraintTop_toTopOf="@id/tv_couponslist_name"
-            app:layout_constraintBottom_toBottomOf="@id/tv_couponslist_validtime"
-            app:layout_constraintRight_toRightOf="parent"
-            android:textSize="@dimen/textview_size_max"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+
         <com.example.emmproject.widget.DividerView
             android:id="@+id/divider"
             android:layout_marginTop="10dp"
@@ -50,7 +46,10 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"/>
         <TextView
-            android:id="@+id/tv_couponslist_explain"
+            android:textSize="@dimen/textview_size_min"
+            android:padding="@dimen/margin4"
+            android:background="@drawable/bg_button_press"
+            android:id="@+id/tv_couponslist_tip"
             app:layout_constraintLeft_toLeftOf="@id/tv_couponslist_name"
             android:layout_marginTop="5dp"
             app:layout_constraintTop_toBottomOf="@id/divider"
@@ -62,11 +61,21 @@
             android:layout_marginLeft="2dp"
             android:tint="@color/grey"
             android:src="@mipmap/imageview_down"
-            app:layout_constraintBottom_toBottomOf="@id/tv_couponslist_explain"
-            app:layout_constraintTop_toTopOf="@id/tv_couponslist_explain"
-            app:layout_constraintLeft_toRightOf="@id/tv_couponslist_explain"
+            app:layout_constraintBottom_toBottomOf="@id/tv_couponslist_tip"
+            app:layout_constraintTop_toTopOf="@id/tv_couponslist_tip"
+            app:layout_constraintLeft_toRightOf="@id/tv_couponslist_tip"
             android:layout_width="15dp"
             android:layout_height="15dp"/>
+
+        <TextView
+            android:textSize="@dimen/textview_size_min"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_couponslist_tip"
+            android:id="@+id/tv_couponslist_explain"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

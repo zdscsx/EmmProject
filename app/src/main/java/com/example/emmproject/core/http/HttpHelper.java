@@ -6,6 +6,8 @@ import com.example.emmproject.core.bean.DataBean;
 import com.example.emmproject.core.bean.history.HistoryIntegralBean;
 import com.example.emmproject.core.bean.main.LoginBean;
 import com.example.emmproject.core.bean.main.LoginByPasswordBean;
+import com.example.emmproject.core.bean.mine.CouponsBean;
+import com.example.emmproject.core.bean.mine.ExchangeRequestBean;
 import com.example.emmproject.core.bean.order.MarkLocationBean;
 import com.example.emmproject.core.bean.history.DataOrderHistory;
 import com.example.emmproject.core.bean.main.RefreshTokenBean;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.Response;
+import retrofit2.http.Header;
 
 public interface HttpHelper {
 
@@ -61,6 +64,10 @@ public interface HttpHelper {
       Observable<BaseResponse<WechatPayBean>> payRequest(String tokrn, PayRequestBean payRequestBean);
          //获取历史积分记录
      Observable<BaseResponse<ArrayList<HistoryIntegralBean>>> queryIntegralHistory(String token);
+     //兑换优惠卷
+     Observable<BaseResponse<String>> exchangeCoupons(String header, ExchangeRequestBean exchangeRequestBean);
+
+     Observable<BaseResponse<ArrayList<CouponsBean>>> queryAllIntegralCoupons( String token);
 
 
 

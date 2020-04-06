@@ -1,6 +1,5 @@
 package com.example.emmproject.ui.mine.adapter;
 
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.emmproject.R;
-import com.example.emmproject.app.Constants;
 import com.example.emmproject.core.bean.mine.CouponsBean;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,6 +22,10 @@ public class CouponsAdapter extends RecyclerView.Adapter<CouponsAdapter.ViewHold
 
 
     private ArrayList<CouponsBean> mCouponsBeans;
+
+    public CouponsAdapter(ArrayList<CouponsBean> couponsBeans) {
+        mCouponsBeans = couponsBeans;
+    }
 
     @NonNull
     @Override
@@ -34,10 +37,10 @@ public class CouponsAdapter extends RecyclerView.Adapter<CouponsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        boolean moreHasSelect=false;
+        AtomicBoolean moreHasSelect= new AtomicBoolean(false);
         CouponsBean couponsBean=mCouponsBeans.get(position);
 
-        switch (couponsBean.getCouponType()){
+     /*   switch (couponsBean.getCouponType()){
             case Constants.COUPONTYPE_REDUCE:
                 holder.tvCouponsName.setText("满减卷");
                 break;
@@ -49,10 +52,11 @@ public class CouponsAdapter extends RecyclerView.Adapter<CouponsAdapter.ViewHold
                 holder.tvCouponsName.setText("食品卷");
 
                 break;
-        }
+        }*/
+     holder.tvCouponsName.setText(couponsBean.getCouponName());
 
-        holder.ivMore.setOnClickListener(o-> {  //这个没啥就是 那个使用规则旁边的三角标
-            if (moreHasSelect)    {
+        holder.tvTip.setOnClickListener(o-> {  //这个没啥就是 那个使用规则旁边的三角标
+            {if (moreHasSelect.get())    {
                 holder.tvExplain.setVisibility(View.GONE);
                 holder.ivMore.setImageResource(R.mipmap.imageview_down);
             }
@@ -60,10 +64,11 @@ public class CouponsAdapter extends RecyclerView.Adapter<CouponsAdapter.ViewHold
                 holder.tvExplain.setVisibility(View.VISIBLE);
                 holder.ivMore.setImageResource(R.mipmap.imageview_up);
             }
+            moreHasSelect.set(!moreHasSelect.get());}
         }
         );
 
-        holder.tvValidTime.setText(couponsBean.getValidStartTime()+"-"+couponsBean.getValidEndTime());
+        holder.tvValidTime.setText(couponsBean.getValidStartTime()+" - "+couponsBean.getValidEndTime());
         holder.tvExplain.setText(couponsBean.getDescription());
         holder.tvExplain.setVisibility(View.GONE);
     }
@@ -83,8 +88,10 @@ public class CouponsAdapter extends RecyclerView.Adapter<CouponsAdapter.ViewHold
         TextView tvCouponsName;
         @BindView(R.id.tv_couponslist_validtime)
         TextView tvValidTime;
-        @BindView(R.id.tv_couponslist_discounts)
-        TextView tvDiscounts;
+        @BindView(R.id.tv_couponslist_tip)
+        TextView tvTip;
+       /* @BindView(R.id.tv_couponslist_discounts)
+        TextView tvDiscounts;*/
 
 
         public ViewHolder(@NonNull View itemView) {

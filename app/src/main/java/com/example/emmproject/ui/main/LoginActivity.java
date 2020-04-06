@@ -45,7 +45,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             case R.id.bt_login_login :
                 if (isPasswordLoad) {
                     mPresenter.loginByPassword(new LoginByPasswordBean(mEtPhone.getText().toString(),mEtLoginPassword.getText().toString()));
-
                 }
                 else {
                     mPresenter.getVreifyCode(mEtPhone.getText().toString());

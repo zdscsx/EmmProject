@@ -2,10 +2,13 @@ package com.example.emmproject.ui.mine.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
@@ -13,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.codbking.widget.DatePickDialog;
 import com.codbking.widget.bean.DateType;
 import com.example.emmproject.R;
+import com.example.emmproject.app.Constants;
 import com.example.emmproject.base.activity.BaseActivity;
 import com.example.emmproject.contract.mine.ChangeUserInfoContract;
 import com.example.emmproject.core.bean.mine.User;
@@ -25,11 +29,14 @@ import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.interfaces.OnInputDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
+import com.kongzue.dialog.util.InputInfo;
 import com.kongzue.dialog.v3.InputDialog;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.suke.widget.SwitchButton;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
@@ -52,11 +59,14 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
     ImageView ivPic;
     @BindView(R.id.tv_changeinfo_birthday)
     TextView tvBirthday;
+    @BindView(R.id.sw_changeinfo_sex)
+    SwitchButton mSwitchSex;
+    @BindView(R.id.iv_changeinfo_right)
+    ImageView ivBirthRight;
 
-
-    private User mUser;
-
-    @OnClick({R.id.rl_changeinfo_photo,R.id.rl_changeinfo_birthday,R.id.rl_changeinfo_name,R.id.bt_changeinfo_logout})
+    private User mUser=new User();
+    private boolean hasChoiceBirthday;
+    @OnClick({R.id.rl_changeinfo_photo,R.id.rl_changeinfo_birthday,R.id.rl_changeinfo_name,R.id.bt_changeinfo_logout,R.id.sw_changeinfo_sex})
     void onClick(View view){
         switch (view.getId()){
             case R.id.rl_changeinfo_photo:
@@ -65,50 +75,62 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
                         .forResult(PictureConfig.CHOOSE_REQUEST);
                 break;
             case R.id.rl_changeinfo_birthday:
-             /*   DatePickDialog dialog = new DatePickDialog(this);
-                //设置上下年分限制
-                dialog.setYearLimt(100);
-                //设置标题
-                dialog.setTitle("选择时间");
-                //设置类型
-                dialog.setType(DateType.TYPE_ALL);
-                //设置消息体的显示格式，日期格式
-                dialog.setMessageFormat("yyyy-MM-dd");
-                //设置选择回调
-                dialog.setOnChangeLisener(null);
-                //设置点击确定按钮回调
-                setYear(dialog);
+                if(!hasChoiceBirthday){
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+                    SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd",Locale.CHINA);
+                    String now = sdf.format(new Date());
+                    CustomDatePicker customDatePicker1 = new CustomDatePicker(this, new CustomDatePicker.Callback() {
+                        @Override
+                        public void onTimeSelected(long timestamp) {
+                            String birthday=dateFormat.format(new Date(timestamp));
+                            MessageDialog.build(ChangeUserInfoActivity.this)
+                                    .setStyle(DialogSettings.STYLE.STYLE_MATERIAL)
+                                    .setTheme(DialogSettings.THEME.DARK)
+                                    .setTitle("提示")
+                                    .setMessage("生日只能设置一次，是否确认修改为："+birthday)
+                                    .setOkButton("确定", new OnDialogButtonClickListener() {
+                                        @Override
+                                        public boolean onClick(BaseDialog baseDialog, View v) {
+                                            mUser.setBirthday(birthday);
+                                            mPresenter.changeUserInfo(mUser);
+                                            return false;
+                                        }
 
-                dialog.show();*/
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
-                String now = sdf.format(new Date());
-
-
-               CustomDatePicker customDatePicker1 = new CustomDatePicker(this, new CustomDatePicker.Callback() {
-                   @Override
-                   public void onTimeSelected(long timestamp) {
-
-                   }
-                }, "1970-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
-                customDatePicker1.setCanShowPreciseTime(false); // 不显示时和分
-                customDatePicker1.setScrollLoop(false); // 不允许循环滚动
-                customDatePicker1.show(now);
+                                    })
+                                    .setCancelButton("取消", new OnDialogButtonClickListener() {
+                                        @Override
+                                        public boolean onClick(BaseDialog baseDialog, View v) {
+                                            baseDialog.doDismiss();
+                                            return false;
+                                        }
+                                    })
+                                    .show();
+                        }
+                    }, "1970-01-01 00:00", now); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+                    customDatePicker1.setCanShowPreciseTime(false); // 不显示时和分
+                    customDatePicker1.setScrollLoop(false); // 不允许循环滚动
+                    customDatePicker1.show(now);}
                 break;
             case R.id.rl_changeinfo_name:
-                InputDialog.build(this).setStyle(DialogSettings.STYLE.STYLE_IOS).setCancelButton("取消")
+                InputDialog.build(this).setStyle(DialogSettings.STYLE.STYLE_KONGZUE).setCancelButton("取消")
                         .setOkButton("确定")
-                        .setTitle("输入对话框")
+                        .setTitle("输入昵称")
+                        .setMessage("")
+                        .setInputInfo(new InputInfo().setInputType(InputType.TYPE_CLASS_TEXT))
                         .setOnOkButtonClickListener(new OnInputDialogButtonClickListener() {
                             @Override
                             public boolean onClick(BaseDialog baseDialog, View v, String inputStr) {
-                                showToast(inputStr);
-
+                                mUser.setUsername(inputStr);
+                                mPresenter.changeUserInfo(mUser);
                                 return true;
                             }
                         }).show();
                 break;
             case R.id.bt_changeinfo_logout:
                 mPresenter.logout();
+                break;
+
+
 
 
         }
@@ -147,7 +169,6 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
 
     public static void startActivity(Context context){
         Intent intent=new Intent(context,ChangeUserInfoActivity.class);
-        // intent.putExtra("user",user);
         context.startActivity(intent);
     }
 
@@ -177,6 +198,18 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
     protected void initEventAndData() {
 
         mPresenter.getUser();
+        mSwitchSex.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                if (isChecked){                //选择男{
+                    mUser.setGender(Constants.SEX_MAN);
+                }
+                else {
+                    mUser.setGender(Constants.SEX_WOMWN);
+                }
+                mPresenter.changeUserInfo(mUser);
+            }
+        });
     }
 
 
@@ -189,11 +222,17 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
     public void showUser(User user) {
         mUser=user;
         tvName.setText(mUser.getUsername());
-        tvBirthday.setText(TextUtils.isEmpty(mUser.getBirthday())?"未设置":mUser.getBirthday());
         Glide.with(this).applyDefaultRequestOptions(RequestOptions.circleCropTransform())
                 .load(mUser.getAvatar())
                 .placeholder(R.mipmap.imageview_defaultavatar)
                 .error(R.mipmap.imageview_defaultavatar).into(ivPic);
+        if (!TextUtils.isEmpty(user.getBirthday())) {
+            ivBirthRight.setVisibility(View.INVISIBLE); //生日右边的箭头，设置了生日就隐藏
+            hasChoiceBirthday = true;
+        }
+        tvBirthday.setText(hasChoiceBirthday?mUser.getBirthday():"未设置");
+
+        mSwitchSex.setChecked(mUser.isMan());
 
     }
 
@@ -201,4 +240,5 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
     public void logoutSuccess() {
         MainActivity.startActicity(this);
     }
+
 }

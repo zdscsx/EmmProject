@@ -165,6 +165,8 @@ public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implemen
     }
 
     public void setMarkLocation(MarkLocationBean markLocation){
+        if (!markLocation.equals(mLocationBean))//换了充电桩就清空购物车
+            cleanShopCard();
         mLocationBean=markLocation;
         tvLocation.setText(mLocationBean.getName());
         if (markLocation.getDistance()!=0)
@@ -260,6 +262,11 @@ public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implemen
             }
         });
 
+    }
+
+    private void cleanShopCard(){
+        shoppingCardList.clear();
+        shoppingCardAdapter.notifyDataSetChanged();
     }
     public boolean isShopcardShow() {
         return isShopcardShow;

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -44,7 +45,7 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter>  implements 
     @BindView(R.id.tv_empty_tip)
     TextView tvEmptyTip;
     @BindView(R.id.ly_empty)
-    LinearLayout lyEmpty;
+    RelativeLayout lyEmpty;
 
     private int nowPage=0;
     private OrderHistoryAdapter mHihstoryAdapter;
@@ -62,8 +63,7 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter>  implements 
             @Override
             public void onTabSelect(int position) {
                 nowPage=position;
-                mHistoryBeans.clear();
-                mHihstoryAdapter.notifyDataSetChanged();
+
                 mPresenter.getHistoryList(position);
 
             }
@@ -72,14 +72,20 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter>  implements 
             public void onTabReselect(int position) {
             }
         });
-
-        mPresenter.getHistoryList(0);
         initRecyclerView();
     }
 
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
 
+    }
 
-    void initRecyclerView(){
+    public void getData(){
+        mPresenter.getHistoryList(0);
+    }
+
+   private void initRecyclerView(){
         mHistoryBeans=new ArrayList<>();
         mHihstoryAdapter=new OrderHistoryAdapter(mHistoryBeans,getActivity());
         historyRecyclerView.setAdapter(mHihstoryAdapter);
@@ -123,6 +129,7 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter>  implements 
     public void showHistoryList(ArrayList<OrderHistoryBean> historyBeans) {
         LogUtils.logd("show");
         lyEmpty.setVisibility(View.GONE);
+        mHistoryBeans.clear();
         mHistoryBeans.addAll(historyBeans);
         mHihstoryAdapter.notifyDataSetChanged();
 

@@ -6,6 +6,8 @@ import com.example.emmproject.core.BaseResponse;
 import com.example.emmproject.core.bean.DataBean;
 import com.example.emmproject.core.bean.history.HistoryIntegralBean;
 import com.example.emmproject.core.bean.main.LoginByPasswordBean;
+import com.example.emmproject.core.bean.mine.CouponsBean;
+import com.example.emmproject.core.bean.mine.ExchangeRequestBean;
 import com.example.emmproject.core.bean.order.MarkLocationBean;
 import com.example.emmproject.core.bean.history.DataOrderHistory;
 import com.example.emmproject.core.bean.main.RefreshTokenBean;
@@ -92,5 +94,11 @@ public interface EmmApis {
 
     @GET("charging-order/api/integralController/queryIntegral")
     Observable<BaseResponse<ArrayList<HistoryIntegralBean>>> queryIntegralHistory(@Header("token") String token);
+
+    @GET("charging-order/api/integralController/queryAllIntegralCoupon")
+    Observable<BaseResponse<ArrayList<CouponsBean>>> queryAllIntegralCoupons(@Header("token") String token);
+
+    @POST("charging-order/api/integralController/giveCouponByIntegral")
+    Observable<BaseResponse<String>> exchangeCoupons(@Header("token") String header, @Body ExchangeRequestBean exchangeRequestBean);
 
 }

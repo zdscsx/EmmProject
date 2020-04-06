@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity<MainPresenter > implements MainCo
     private ArrayList<Fragment> fragments=new ArrayList<>();
     private LatLng mLatLng;
     private MarkLocationBean mLocationBean;
+    private HistoryFragment mHistoryFragment;
 
     public static void startActicity(Context context){
         context.startActivity(new Intent(context,MainActivity.class));
@@ -84,6 +85,7 @@ public class MainActivity extends BaseActivity<MainPresenter > implements MainCo
         mPresenter.refreshToken();
         initViewpage();
         requestPermissions();
+       // mHistoryFragment.getData();
     }
 
 
@@ -112,6 +114,7 @@ public class MainActivity extends BaseActivity<MainPresenter > implements MainCo
                 if (grantResults.length>0){
                     getLocation();
                 }
+
 
         }
         //可在此继续其他操作。
@@ -145,11 +148,12 @@ public class MainActivity extends BaseActivity<MainPresenter > implements MainCo
 
     void initViewpage(){
         mOrderFragment=OrderFragment.getInstance();
+        mHistoryFragment=HistoryFragment.newInstance();
         fragments.add(mOrderFragment);
-        fragments.add(HistoryFragment.newInstance());
+        fragments.add(mHistoryFragment);
         fragments.add(MineFragment.newInstance());
         customTabEntities.add(new TabContentEntity("点餐",R.mipmap.imageview_order_select,R.mipmap.imageview_order));
-        customTabEntities.add(new TabContentEntity("历史订单",R.mipmap.imageview_order_select,R.mipmap.imageview_orderlist));
+        customTabEntities.add(new TabContentEntity("历史订单",R.mipmap.imageview_orderlist_select,R.mipmap.imageview_orderlist));
         customTabEntities.add(new TabContentEntity("我的",R.mipmap.imageview_me_select,R.mipmap.imageview_me));
         commonTabLayout.setTabData(customTabEntities,this,R.id.fl_main_container,fragments);
         commonTabLayout.setOnTabSelectListener(new OnTabSelectListener(){
@@ -158,6 +162,9 @@ public class MainActivity extends BaseActivity<MainPresenter > implements MainCo
                 //这个做了个特殊处理，就是在orderFragment中点击显示了购物车时，再点击下面tab切换时，隐藏购物车阴影
                 if (mOrderFragment.isShopcardShow())
                     mOrderFragment.changeShopCardState();
+                if (position==1)
+                    mHistoryFragment.getData();
+
 
             }
 

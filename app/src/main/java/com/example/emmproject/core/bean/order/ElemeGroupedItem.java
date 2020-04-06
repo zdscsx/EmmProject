@@ -63,6 +63,10 @@ public class ElemeGroupedItem extends BaseGroupedItem<ElemeGroupedItem.ItemInfo>
                 return new Gson().fromJson(str, ItemInfo.class);
             }
 
+        public boolean hasFoodOption(){
+            return foodListBean.getFoodOption()!=null;
+        }
+
 
     }
 

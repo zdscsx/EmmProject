@@ -5,6 +5,8 @@ import com.example.emmproject.core.bean.DataBean;
 import com.example.emmproject.core.bean.history.HistoryIntegralBean;
 import com.example.emmproject.core.bean.main.LoginBean;
 import com.example.emmproject.core.bean.main.LoginByPasswordBean;
+import com.example.emmproject.core.bean.mine.CouponsBean;
+import com.example.emmproject.core.bean.mine.ExchangeRequestBean;
 import com.example.emmproject.core.bean.order.MarkLocationBean;
 import com.example.emmproject.core.bean.history.DataOrderHistory;
 import com.example.emmproject.core.bean.main.RefreshTokenBean;
@@ -114,6 +116,12 @@ public class HttpHelperImpl implements HttpHelper {
         return emmApis.queryIntegralHistory(token);
     }
 
+   public Observable<BaseResponse<String>> exchangeCoupons(String header, ExchangeRequestBean exchangeRequestBean){
+        return emmApis.exchangeCoupons(header,exchangeRequestBean);
+    }
+   public Observable<BaseResponse<ArrayList<CouponsBean>>> queryAllIntegralCoupons(String token){
+        return emmApis.queryAllIntegralCoupons(token);
+   }
 
   /*  @Override
     public Observable<Response<MarkLocationBean[]>> getResponse(String token) {

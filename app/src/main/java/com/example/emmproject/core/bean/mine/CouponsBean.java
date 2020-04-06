@@ -21,7 +21,7 @@ public class CouponsBean {
      * targetType : 1
      * targeFoods : [{"foodId":2,"foodName":"奶茶","optionCode":"1=1"}]
      */
-
+    private int integral;
     private int couponUserId;
     private int couponId;
     private String couponName;
@@ -40,6 +40,26 @@ public class CouponsBean {
         return new Gson().fromJson(str, CouponsBean.class);
     }
 
+
+    public int getIntegral() {
+        return integral;
+    }
+
+    public void setIntegral(int integral) {
+        this.integral = integral;
+    }
+
+    public int getCouponUserId() {
+        return couponUserId;
+    }
+
+    public void setCouponUserId(int couponUserId) {
+        this.couponUserId = couponUserId;
+    }
+
+    public String getCouponName() {
+        return couponName;
+    }
 
     public void setCouponName(String couponName) {
         this.couponName = couponName;
@@ -115,6 +135,14 @@ public class CouponsBean {
 
     public void setTargeFoods(List<TargeFoodsBean> targeFoods) {
         this.targeFoods = targeFoods;
+    }
+
+    public int getCouponId() {
+        return couponId;
+    }
+
+    private void setCouponId(int couponId) {
+        this.couponId = couponId;
     }
 
     public static class TargeFoodsBean {

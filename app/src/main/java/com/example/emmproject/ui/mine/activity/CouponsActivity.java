@@ -1,6 +1,7 @@
 package com.example.emmproject.ui.mine.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.view.View;
 import android.os.Bundle;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.emmproject.R;
@@ -26,7 +28,7 @@ import butterknife.OnClick;
 public class CouponsActivity extends BaseActivity<CouponsPresenter> implements CouponsContract.View {
 
     @BindView(R.id.ly_empty)
-    LinearLayout lyEmpty;
+    RelativeLayout lyEmpty;
     @BindView(R.id.tv_empty_tip)
     TextView tvEmptyTip;
     @BindView(R.id.rv_coupons_list)
@@ -36,7 +38,7 @@ public class CouponsActivity extends BaseActivity<CouponsPresenter> implements C
     @BindView(R.id.tv_toolbar_more)
     TextView tvMore;
 
-   private ArrayList<CouponsBean> mCouponsBeans;
+   private ArrayList<CouponsBean> mCouponsBeans=new ArrayList<>();
    private CouponsAdapter mCouponsAdapter;
 
    @OnClick({R.id.tv_toolbar_more,R.id.ibt_toolbar_back})
@@ -44,8 +46,10 @@ public class CouponsActivity extends BaseActivity<CouponsPresenter> implements C
        switch (view.getId()){
            case R.id.tv_toolbar_more:
                UnAvailableCouponsActivity.startActivity(this);
+               break;
            case R.id.ibt_toolbar_back:
                finish();
+               break;
        }
 
    }
@@ -70,7 +74,10 @@ public class CouponsActivity extends BaseActivity<CouponsPresenter> implements C
 
     @Override
     protected void initEventAndData() {
-
+       mCouponsAdapter=new CouponsAdapter(mCouponsBeans);
+       rvCouponsList.setAdapter(mCouponsAdapter);
+       rvCouponsList.setLayoutManager(new LinearLayoutManager(this));
+       mPresenter.getCoupons();
     }
 
     @Override
@@ -80,6 +87,10 @@ public class CouponsActivity extends BaseActivity<CouponsPresenter> implements C
 
     @Override
     public void showCoupons(ArrayList<CouponsBean> couponsBeans) {
+       lyEmpty.setVisibility(View.GONE);
+       mCouponsBeans.clear();
+        mCouponsBeans.addAll(couponsBeans);
+       mCouponsAdapter.notifyDataSetChanged();
 
     }
 

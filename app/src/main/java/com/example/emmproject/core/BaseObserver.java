@@ -12,7 +12,7 @@ import io.reactivex.observers.ResourceObserver;
 public class BaseObserver<T> extends ResourceObserver<BaseResponse<T>> {
 
     public AbstractView view;
-    private String mMessage;
+    public String mMessage;
 
 
     public BaseObserver(AbstractView mView, String mMessage) {

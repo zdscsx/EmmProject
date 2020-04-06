@@ -1,9 +1,10 @@
 package com.example.emmproject.ui.order.adapter;
 
 import android.content.Context;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.view.View;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -66,19 +67,22 @@ public class ProductConfig implements ILinkageSecondaryAdapterConfig {
             Glide.with(mContext).load(food.getMainImage()) .apply(coverRequestOptions).into(imageView);
             contentTv.setText(food.getIntroduction());
             nameTv.setText(food.getName());
-           /* ImageButton addButton=(ImageButton) holder.getView(R.id.bt_order_add);
+            ImageButton addButton=(ImageButton) holder.getView(R.id.bt_order_add);
             ImageButton reduceButton=(ImageButton) holder.getView(R.id.bt_order_reduce);
-            TextView quantityTv=(TextView) holder.getView(R.id.tv_order_quantity);*/
+            TextView quantityTv=(TextView) holder.getView(R.id.tv_order_quantity);
 
             holder.itemView.setOnClickListener(o->
                     new OrderDialog(mContext,(ElemeGroupedItem) item,mShopCardList,callback).showOrderDialog());
+            if (!foodItem.hasFoodOption()){
+
+            }
     /*        if (((ElemeGroupedItem.ItemInfo) item.info).getQuantity()>0)
             { reduceButton  .setVisibility(View.VISIBLE);
                 quantityTv.setVisibility(View.VISIBLE);
             }
             else   {reduceButton.setVisibility(View.GONE);
                 quantityTv.setVisibility(View.GONE);}*/
-        /*    addButton.setOnClickListener(new View.OnClickListener() {
+       /*   addButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ((ElemeGroupedItem.ItemInfo) item.info).setQuantity(true);
@@ -90,7 +94,7 @@ public class ProductConfig implements ILinkageSecondaryAdapterConfig {
                     quantityTv.setText((elemeGroupedItem.info).getQuantity()+"");
                     callback.onAddItem(elemeGroupedItem);
                 }
-            });*/
+            });
           /*  reduceButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

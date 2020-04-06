@@ -74,7 +74,7 @@
                     android:id="@+id/tv_changeinfo_name"
                     android:text="昵称"
                     android:textSize="@dimen/textview_size_small"
-                    android:layout_toLeftOf="@id/right"
+                    android:layout_toLeftOf="@id/name_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -83,7 +83,7 @@
                     />
                 <ImageView
                     android:src="@mipmap/imageview_right"
-                    android:id="@+id/right"
+                    android:id="@+id/name_right"
                     android:layout_marginRight="10dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
@@ -115,13 +115,20 @@
                     android:id="@+id/tv_changeinfo_birthday"
                     android:text="2547555298"
                     android:textSize="@dimen/textview_size_small"
+                    android:layout_toLeftOf="@id/iv_changeinfo_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="20dp"
-                    android:layout_alignParentRight="true"
                     android:src="@mipmap/ic_launcher"
                     />
+                <ImageView
+                    android:src="@mipmap/imageview_right"
+                    android:id="@+id/iv_changeinfo_right"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"/>
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
@@ -141,6 +148,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
+
+                <com.suke.widget.SwitchButton
+
+                    app:sb_effect_duration="200"
+                    app:sb_checked="true"
+                    app:sb_background="@color/red"
+                    android:id="@+id/sw_changeinfo_sex"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             </RelativeLayout>
         </LinearLayout>

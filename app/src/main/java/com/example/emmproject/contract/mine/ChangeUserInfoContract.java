@@ -14,6 +14,8 @@ public interface ChangeUserInfoContract {
 
        void logoutSuccess();
 
+
+
     }
     interface Presenter extends AbstractPresenter<View>{
 

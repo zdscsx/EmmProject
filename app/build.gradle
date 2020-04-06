@@ -112,7 +112,7 @@ dependencies {
     //进度条
     implementation 'me.zhouzhuo.zzhorizontalprogressbar:zz-horizontal-progressbar:1.1.0'
     //switcher
-    implementation 'com.bitvale:switcher:1.0.9'
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 
     // 圆角按钮
     implementation 'com.github.czy1121:roundbutton:1.1.0'

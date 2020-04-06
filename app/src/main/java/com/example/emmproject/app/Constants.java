@@ -34,5 +34,9 @@ public class Constants {
  public  static final int INTEGRAL_ADD=1;
  public static final int  INTEGRAL_REDUCE=2;
 
+ //性别
+ public static final int SEX_MAN=0;
+ public static final int SEX_WOMWN=1;
+
 
 }

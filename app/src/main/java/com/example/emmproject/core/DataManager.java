@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.emmproject.app.Constants;
 import com.example.emmproject.core.bean.DataBean;
 import com.example.emmproject.core.bean.history.HistoryIntegralBean;
+import com.example.emmproject.core.bean.mine.ExchangeRequestBean;
 import com.example.emmproject.core.bean.order.ElemeGroupedItem;
 import com.example.emmproject.core.bean.main.LoginBean;
 import com.example.emmproject.core.bean.main.LoginByPasswordBean;
@@ -207,7 +208,7 @@ public class DataManager {
     }
 
    public Observable<BaseResponse<User>> changeInfo(User user){
-
+          LogUtils.logGson(user);
         return mHttpHelper.changeInfo(getToken(),user);
     }
 
@@ -239,6 +240,16 @@ public class DataManager {
    public Observable<BaseResponse<ArrayList<HistoryIntegralBean>>> queryIntegralHistory(){
         return mHttpHelper.queryIntegralHistory(getToken());
     }
+
+   public Observable<BaseResponse<String>> exchangeCoupons( ExchangeRequestBean exchangeRequestBean){
+        return mHttpHelper.exchangeCoupons(getToken(),exchangeRequestBean);
+
+    }
+
+   public Observable<BaseResponse<ArrayList<CouponsBean>>> queryAllIntegralCoupons(){
+        return mHttpHelper.queryAllIntegralCoupons(getToken());
+    }
+
 
     //sharepreference
 
