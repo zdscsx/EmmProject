@@ -1,29 +1,30 @@
 package com.example.emmproject.core.http;
 
-import android.util.Log;
-
 import com.example.emmproject.core.BaseResponse;
 import com.example.emmproject.core.bean.DataBean;
-import com.example.emmproject.core.bean.LoginBean;
-import com.example.emmproject.core.bean.LoginByPasswordBean;
-import com.example.emmproject.core.bean.MarkLocationBean;
+import com.example.emmproject.core.bean.history.HistoryIntegralBean;
+import com.example.emmproject.core.bean.main.LoginBean;
+import com.example.emmproject.core.bean.main.LoginByPasswordBean;
+import com.example.emmproject.core.bean.order.MarkLocationBean;
 import com.example.emmproject.core.bean.history.DataOrderHistory;
-import com.example.emmproject.core.bean.history.OrderHistoryBean;
 import com.example.emmproject.core.bean.main.RefreshTokenBean;
-import com.example.emmproject.core.bean.mine.CouponsBean;
 import com.example.emmproject.core.bean.mine.CouponsDataBean;
 import com.example.emmproject.core.bean.mine.IntegralBean;
 import com.example.emmproject.core.bean.mine.User;
+import com.example.emmproject.core.bean.order.PayRequestBean;
+import com.example.emmproject.core.bean.order.PrePayInfoBean;
 import com.example.emmproject.core.bean.order.StoreFoodBean;
+import com.example.emmproject.core.bean.order.SubmitOrderBean;
+import com.example.emmproject.core.bean.order.WechatPayBean;
 import com.example.emmproject.utils.LogUtils;
-import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.Response;
-import retrofit2.http.Part;
 
 public class HttpHelperImpl implements HttpHelper {
 
@@ -37,12 +38,12 @@ public class HttpHelperImpl implements HttpHelper {
 
     @Override
     public Observable<Response<BaseResponse<User>>> login(LoginBean loginBean) {
-        return emmApis.login(loginBean.getPhone(),loginBean.getCode(),loginBean.getMessage());
+        return emmApis.login(loginBean.getPhone(),loginBean.getCode(),loginBean.getMessage(),"app");
     }
 
     @Override
     public Observable<Response<BaseResponse<User>>> loginByPassword(LoginByPasswordBean loginByPasswordBean) {
-        return emmApis.loginByPassword(loginByPasswordBean);
+        return emmApis.loginByPassword(loginByPasswordBean,"app");
     }
 
     @Override
@@ -82,20 +83,35 @@ public class HttpHelperImpl implements HttpHelper {
 
     @Override
     public Observable<BaseResponse<DataOrderHistory>> getOrderHistory(String token, int pageNum, int pageSize) {
-                    LogUtils.logd(token+pageNum+pageSize);
       return emmApis.getOrderHistory(token,pageNum,pageSize);
     }
 
     @Override
     public Observable<BaseResponse<RefreshTokenBean>> refreshToken(String refreshToken,String token) {
-          LogUtils.logd(refreshToken+"t     " +
-                  token);
-        return emmApis.refreshToken(refreshToken,token,token);
+        return emmApis.refreshToken(refreshToken,token,token,"app");
     }
 
     @Override
     public Observable<BaseResponse<User>> changeInfo(String token, User user) {
         return emmApis.changeInfo(token,user);
+    }
+
+    @Override
+    public Observable<BaseResponse<PrePayInfoBean>> getOrderInfo(String token, long timestamp, SubmitOrderBean submitOrderBean) {
+        return emmApis.getOrderInfo(token,timestamp,submitOrderBean);    }
+
+    @Override
+    public Observable<BaseResponse> logout(String token, String phone) {
+        return emmApis.logout(token,phone);
+    }
+
+    @Override
+    public Observable<BaseResponse<WechatPayBean>> payRequest(String tokrn, PayRequestBean payRequestBean) {
+        return emmApis.payRequest(tokrn,payRequestBean,System.currentTimeMillis());
+    }
+
+    public Observable<BaseResponse<ArrayList<HistoryIntegralBean>>> queryIntegralHistory(String token){
+        return emmApis.queryIntegralHistory(token);
     }
 
 

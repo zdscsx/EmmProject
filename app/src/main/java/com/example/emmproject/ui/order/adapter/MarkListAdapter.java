@@ -12,10 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.emmproject.R;
-import com.example.emmproject.core.bean.MarkLocationBean;
-import com.example.emmproject.utils.LogUtils;
+import com.example.emmproject.core.bean.order.MarkLocationBean;
+import com.example.emmproject.ui.main.MainActivity;
 import com.example.emmproject.utils.MapUtils;
-import com.google.gson.Gson;
 import com.tencent.mapsdk.raster.model.LatLng;
 import com.tencent.tencentmap.mapsdk.map.Projection;
 
@@ -64,13 +63,14 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.ViewHo
 
                MapUtils.startDownLoadMapApp(context);
         });
+        holder.item.setOnClickListener(o-> MainActivity.startActivity(context,markLocationBean));
         holder.tvLocation.setText(markLocationBean.getAddress());
         holder.tvName.setText(markLocationBean.getName());
         holder.tvWorktime.setText(markLocationBean.getWorkBeginTime()+"~"+markLocationBean.getWorkEndTime());
 
         if (mCurrentLatLng!=null){
-            float distance=(float)Math.round( mProjection.distanceBetween(latLng,mCurrentLatLng)*100)/100/1000;
-            holder.tvDistance.setText("距离"+distance+"km");
+            markLocationBean.setDistance(Math.round( mProjection.distanceBetween(latLng,mCurrentLatLng)/1000*100)/100);
+            holder.tvDistance.setText("距离: "+markLocationBean.getDistance()+" km");
         }
     }
 
@@ -91,9 +91,11 @@ public class MarkListAdapter extends RecyclerView.Adapter<MarkListAdapter.ViewHo
         TextView tvWorktime;
         @BindView(R.id.tv_marklocation_ditance)
         TextView tvDistance;
+        View item;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            item=itemView;
         }
     }
 }

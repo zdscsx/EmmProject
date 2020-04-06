@@ -11,6 +11,7 @@ import com.example.emmproject.ui.mine.activity.UnAvailableCouponsActivity;
 import com.example.emmproject.ui.order.activity.MapActivity;
 import com.example.emmproject.ui.mine.activity.UserInfoActivity;
 import com.example.emmproject.ui.main.VerifyCodeActivity;
+import com.example.emmproject.ui.order.activity.SubmitOrderActivity;
 
 import dagger.android.ContributesAndroidInjector;
 import dagger.Module;
@@ -46,6 +47,9 @@ public abstract class ActivityModule {
 
     @ContributesAndroidInjector(modules = CommonModule.class)
     abstract UnAvailableCouponsActivity contributeUnavailableInjector();
+
+    @ContributesAndroidInjector(modules = CommonModule.class)
+    abstract SubmitOrderActivity contributeSubmitAcitivtyInjector();
 
 
 }

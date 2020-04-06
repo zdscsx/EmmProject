@@ -1,13 +1,8 @@
-package com.example.emmproject.core.bean;
+package com.example.emmproject.core.bean.order;
 
-import androidx.annotation.Nullable;
-
-import com.example.emmproject.core.bean.order.StoreFoodBean;
 import com.example.emmproject.core.bean.order.StoreFoodBean.FoodListBean;
 import com.google.gson.Gson;
 import com.kunminx.linkage.bean.BaseGroupedItem;
-
-import java.util.List;
 
 
 public class ElemeGroupedItem extends BaseGroupedItem<ElemeGroupedItem.ItemInfo> {

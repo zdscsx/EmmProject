@@ -20,27 +20,57 @@ public class LimitSizeLinearLayout extends LinearLayout {
 
     int maxHeight;
     int maxWidth;
+
+    int widthSpec;
+    int heightSpec;
     public LimitSizeLinearLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        TypedArray typedArray=context.obtainStyledAttributes(attrs,R.styleable.LimitSizeLinearLayout);
-        maxHeight=typedArray.getDimensionPixelSize(maxHeight,0);
-        maxWidth=typedArray.getDimensionPixelOffset(maxWidth,0);
-
+        initValue(context,attrs);
     }
+
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        LogUtils.logd(getMeasuredWidth()+"  "+getMeasuredHeight());
+
+        if (widthSpec==0&&heightSpec==0){
+            widthSpec=widthMeasureSpec;
+            heightSpec=heightMeasureSpec;
+        }
         int heightSpecMode= MeasureSpec.getMode(heightMeasureSpec);
         int widthMeasuerMode=MeasureSpec.getMode(widthMeasureSpec);
         int widthSize=getMeasuredWidth();
         int heightSize=getMeasuredHeight();
         if (heightSpecMode==MeasureSpec.AT_MOST&&maxHeight!=0&&heightSize>maxHeight)
+        {
+            getLayoutParams().height=maxHeight;
             heightSize=maxHeight;
+        }
         if (widthMeasuerMode==MeasureSpec.AT_MOST&&maxWidth!=0&&widthSize>maxWidth)
-            widthSize=maxWidth;
-            setMeasuredDimension(widthSize,heightSize);
+        {            getLayoutParams().width=maxWidth;
+                     widthSize=maxWidth;
+        }
+        setMeasuredDimension(widthSize,heightSize);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+
+        super.onLayout(changed, l, t, r, b);
+        setLayoutParams(widthSpec,heightSpec);
+    }
+
+    void setLayoutParams(int width,int height){
+
+        getLayoutParams().width=width;
+        getLayoutParams().height=height;
+    }
+
+    void initValue(Context context,AttributeSet attrs){
+        TypedArray typedArray=context.obtainStyledAttributes(attrs,R.styleable.LimitSizeLinearLayout);
+        maxHeight=typedArray.getDimensionPixelSize(R.styleable.LimitSizeLinearLayout_maxHeight,0);
+        maxWidth=typedArray.getDimensionPixelOffset(R.styleable.LimitSizeLinearLayout_maxWidth,0);
 
     }
 }

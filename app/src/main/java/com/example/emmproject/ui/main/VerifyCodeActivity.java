@@ -75,6 +75,7 @@ public class VerifyCodeActivity extends BaseActivity<VerifyCodePresenter> implem
            @Override
            public void vCodeComplete(String verificationCode) {
                mPresenter.verifyCode(mPhone,verificationCode,message);
+
            }
            @Override
            public void vCodeIncomplete(String verificationCode) { }
@@ -84,7 +85,8 @@ public class VerifyCodeActivity extends BaseActivity<VerifyCodePresenter> implem
     @Override
     public void verifySucceed() {
 
-        MainActivity.startActicity(this);
+            MainActivity.startActicity(this);
+
     }
 
     @Override

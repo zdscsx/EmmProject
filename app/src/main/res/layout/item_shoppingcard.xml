@@ -52,8 +52,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginBottom="10dp"
                     android:layout_margin="2dp"
-                    android:textColor="@color/black"
-                    android:text="$19"
+                    android:textColor="@color/red"
                     android:layout_width="50dp"
                     android:layout_height="20dp"
                     android:id="@+id/tv_shopcard_cost"/>
@@ -92,5 +91,11 @@
 
 
         </LinearLayout>
+        <View
+             android:layout_toRightOf="@id/iv_shopcard_product"
+             android:layout_alignParentBottom="true"
+             android:background="@color/grey_divider"
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/divider_height"/>
     </RelativeLayout>
 </RelativeLayout>

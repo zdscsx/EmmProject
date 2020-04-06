@@ -36,8 +36,8 @@
     <color name="black">#212121</color>
     <color name="little_black">#616161</color>
     <color name="title_black">#222222</color>
-    <color name="white_title"> #F5F5F5</color>
-    <color name="grey_divider">#E5E5E5</color>
+    <color name="white_tab"> #FFFFFF</color>
+    <color name="grey_divider">#F5F5F5</color>
     <color name="blue">#7196b1</color>
     <color name="deep_blue">#0539be</color>
     <color name="grey_bar">#ECECEC</color>
@@ -49,7 +49,7 @@
     <color name="grey_imageview">#aaa</color>
     <color name="vip_color">#383830</color>
 
-<!--    DatepPicker-->
+<!--    DatepPicker 263238-->
     <color name="date_picker_bg">#FFFFFF</color>
     <color name="date_picker_divider">#11112233</color>
     <color name="date_picker_text_light">#59B29C</color>

@@ -73,6 +73,7 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter>  implements 
             }
         });
 
+        mPresenter.getHistoryList(0);
         initRecyclerView();
     }
 

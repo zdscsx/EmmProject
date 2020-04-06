@@ -3,7 +3,6 @@ package com.example.emmproject.ui.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,7 +12,7 @@ import android.widget.TextView;
 import com.example.emmproject.R;
 import com.example.emmproject.base.activity.BaseActivity;
 import com.example.emmproject.contract.main.LoginContract;
-import com.example.emmproject.core.bean.LoginByPasswordBean;
+import com.example.emmproject.core.bean.main.LoginByPasswordBean;
 import com.example.emmproject.presenter.main.LoginPresenter;
 import com.example.emmproject.utils.LogUtils;
 
@@ -46,6 +45,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             case R.id.bt_login_login :
                 if (isPasswordLoad) {
                     mPresenter.loginByPassword(new LoginByPasswordBean(mEtPhone.getText().toString(),mEtLoginPassword.getText().toString()));
+
                 }
                 else {
                     mPresenter.getVreifyCode(mEtPhone.getText().toString());

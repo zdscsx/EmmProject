@@ -57,10 +57,10 @@
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
             android:maxLines="1"
+            android:textSize="@dimen/textview_size_min"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_marklocation_go"
-            android:text="距离3.8km"/>
+            android:layout_below="@+id/iv_marklocation_go" />
 
 
     </RelativeLayout>

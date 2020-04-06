@@ -14,7 +14,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-<!--    dataPicker-->
+    <!--    dataPicker-->
     <string name="cancel">取消</string>
     <string name="title">请选择时间</string>
     <string name="confirm">确定</string>

@@ -1,28 +1,21 @@
 package com.example.emmproject.presenter.main;
 
-import android.util.Log;
-
 import com.example.emmproject.app.Constants;
 import com.example.emmproject.base.presenter.BasePresenter;
 import com.example.emmproject.contract.main.LoginContract;
 import com.example.emmproject.core.BaseObserver;
 import com.example.emmproject.core.BaseResponse;
 import com.example.emmproject.core.DataManager;
-import com.example.emmproject.core.bean.LoginByPasswordBean;
+import com.example.emmproject.core.TipObserver;
+import com.example.emmproject.core.bean.main.LoginByPasswordBean;
 import com.example.emmproject.core.bean.mine.User;
 import com.example.emmproject.utils.LogUtils;
 import com.example.emmproject.utils.RxUtils;
-import com.google.gson.Gson;
-
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.inject.Inject;
 
 import io.reactivex.observers.ResourceObserver;
 import retrofit2.Response;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter{
     DataManager mDataManager;
@@ -34,10 +27,9 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
 
     @Override
     public void getVreifyCode(String phoneNumber) {
-
       addSubscribe(mDataManager.getVerifyCode(phoneNumber)
               .compose(RxUtils.rxSchedulerHelper())
-              .subscribeWith(new BaseObserver<String>(mView,"获取验证码失败"){
+              .subscribeWith(new TipObserver<String>(mView,"获取验证码失败"){
             @Override
             public void onNext(BaseResponse<String> baseResponse) {
                 super.onNext(baseResponse);

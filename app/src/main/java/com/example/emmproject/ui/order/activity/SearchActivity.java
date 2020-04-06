@@ -5,10 +5,10 @@ import android.content.Intent;
 
 import com.example.emmproject.R;
 import com.example.emmproject.base.activity.BaseActivity;
-import com.example.emmproject.contract.order.SearchContract;
+import com.example.emmproject.contract.order.SearchOrderContract;
 import com.example.emmproject.presenter.order.SearchPresenter;
 
-public class SearchActivity extends BaseActivity<SearchPresenter> implements SearchContract.View {
+public class SearchActivity extends BaseActivity<SearchPresenter> implements SearchOrderContract.View {
 
 
 

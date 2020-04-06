@@ -1,18 +1,15 @@
-package com.example.emmproject.core.bean.history;
+package com.example.emmproject.core.bean.order;
 
 import com.google.gson.Gson;
 
-public class FoodBean {
+import java.io.Serializable;
 
-
-    /**
-     * foodName : 炒面
-     * quantity : 1
-     * originSum : 15.0
-     * finalSum : 5.0
-     * optionInfo : 小份、加辣椒、加鸡蛋
-     * mainImage : ...
-     */
+/**
+ * 说明：
+ * 作者：
+ * 添加时间：
+ */
+public class FoodBean implements Serializable ,Food{
 
     private String foodName;
     private int quantity;
@@ -21,10 +18,7 @@ public class FoodBean {
     private String optionInfo;
     private String mainImage;
 
-    public static FoodBean objectFromData(String str) {
 
-        return new Gson().fromJson(str, FoodBean.class);
-    }
 
     public String getFoodName() {
         return foodName;

@@ -2,7 +2,7 @@ package com.example.emmproject.contract.main;
 
 import com.example.emmproject.base.presenter.AbstractPresenter;
 import com.example.emmproject.base.view.AbstractView;
-import com.example.emmproject.core.bean.LoginByPasswordBean;
+import com.example.emmproject.core.bean.main.LoginByPasswordBean;
 
 public interface LoginContract {
     interface View extends AbstractView{

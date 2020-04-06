@@ -10,7 +10,10 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"/>
-
+<View
+    android:background="@color/grey_divider"
+    android:layout_width="match_parent"
+    android:layout_height="2px"/>
 
     <com.flyco.tablayout.CommonTabLayout
         android:layout_width="match_parent"
@@ -23,5 +26,5 @@
         app:tl_textUnselectColor="@color/black"
         app:tl_textSelectColor="@color/blue"
 
-        android:background="@color/white_title"/>
+        android:background="@color/white_tab"/>
 </LinearLayout>

@@ -4,10 +4,11 @@ import android.util.Log;
 
 import com.example.emmproject.app.Constants;
 import com.example.emmproject.core.bean.DataBean;
-import com.example.emmproject.core.bean.ElemeGroupedItem;
-import com.example.emmproject.core.bean.LoginBean;
-import com.example.emmproject.core.bean.LoginByPasswordBean;
-import com.example.emmproject.core.bean.MarkLocationBean;
+import com.example.emmproject.core.bean.history.HistoryIntegralBean;
+import com.example.emmproject.core.bean.order.ElemeGroupedItem;
+import com.example.emmproject.core.bean.main.LoginBean;
+import com.example.emmproject.core.bean.main.LoginByPasswordBean;
+import com.example.emmproject.core.bean.order.MarkLocationBean;
 import com.example.emmproject.core.bean.history.DataOrderHistory;
 import com.example.emmproject.core.bean.history.OrderHistoryBean;
 import com.example.emmproject.core.bean.main.RefreshTokenBean;
@@ -15,13 +16,17 @@ import com.example.emmproject.core.bean.mine.CouponsBean;
 import com.example.emmproject.core.bean.mine.CouponsDataBean;
 import com.example.emmproject.core.bean.mine.IntegralBean;
 import com.example.emmproject.core.bean.mine.User;
+import com.example.emmproject.core.bean.order.PayRequestBean;
+import com.example.emmproject.core.bean.order.PrePayInfoBean;
+import com.example.emmproject.core.bean.order.ShopCardFoodBean;
 import com.example.emmproject.core.bean.order.StoreFoodBean;
+import com.example.emmproject.core.bean.order.SubmitOrderBean;
+import com.example.emmproject.core.bean.order.WechatPayBean;
 import com.example.emmproject.core.db.DbHelper;
 import com.example.emmproject.core.http.HttpHelper;
 import com.example.emmproject.core.prefs.PreferenceHelper;
 import com.example.emmproject.utils.CommonUtils;
 import com.example.emmproject.utils.LogUtils;
-import com.google.gson.Gson;
 import com.kunminx.linkage.bean.BaseGroupedItem;
 import com.luck.picture.lib.entity.LocalMedia;
 
@@ -29,23 +34,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
+import okhttp3.FormBody;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Response;
-import retrofit2.http.Field;
-import retrofit2.http.Multipart;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -62,8 +63,7 @@ public class DataManager {
     }
 
     public Observable<Response<BaseResponse<User>>> login(LoginBean loginBean) {
-
-        return mHttpHelper.login(loginBean);
+         return mHttpHelper.login(loginBean);
     }
 
 
@@ -82,7 +82,6 @@ public class DataManager {
     }
 
     public Observable<BaseResponse<ArrayList<BaseGroupedItem<ElemeGroupedItem.ItemInfo>>>> getStoreFood(int chardId){
-
         return   mHttpHelper.getStoreFood(getToken(),chardId).map(new Function<BaseResponse<StoreFoodBean[]>, BaseResponse<ArrayList<BaseGroupedItem<ElemeGroupedItem.ItemInfo>>>>() {
             //把后台数据转成双recyclerview框架要用的格式
             @Override
@@ -120,12 +119,11 @@ public class DataManager {
                 call.enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, final IOException e) {
-                        Log.d(TAG, "onResponse "+e.getMessage());
                     }
 
                     @Override
                     public void onResponse(Call call, okhttp3.Response response) throws IOException {
-                        Log.d(TAG, "onResponse: "+response.body().string());
+                        Log.d(TAG, "onResponse: "+Thread.currentThread());
                     }
                 });
             }
@@ -139,11 +137,11 @@ public class DataManager {
         return mHttpHelper.changePic(getToken(),part);
     }
 
-    Observable<BaseResponse<IntegralBean>> getIntegral(String token){
-        return mHttpHelper.getIntegral(token);
+   public Observable<BaseResponse<IntegralBean>> getIntegral(){
+        return mHttpHelper.getIntegral(getToken());
     }
 
-    Observable<BaseResponse<ArrayList<CouponsBean>>>  getCupons(){
+   public Observable<BaseResponse<ArrayList<CouponsBean>>>  getCupons(){
         return mHttpHelper.getCupons(getToken()).map(new Function<BaseResponse<CouponsDataBean>, BaseResponse<ArrayList<CouponsBean>>>() {
             @Override
             public BaseResponse<ArrayList<CouponsBean>> apply(BaseResponse<CouponsDataBean> couponsBeanBaseResponse) throws Exception {
@@ -155,7 +153,7 @@ public class DataManager {
         });
     }
 
-    Observable<BaseResponse<ArrayList<CouponsBean>>>  getUnAvailableCupons(){
+   public Observable<BaseResponse<ArrayList<CouponsBean>>>  getUnAvailableCupons(){
         return mHttpHelper.getCupons(getToken()).map(new Function<BaseResponse<CouponsDataBean>, BaseResponse<ArrayList<CouponsBean>>>() {
             @Override
             public BaseResponse<ArrayList<CouponsBean>> apply(BaseResponse<CouponsDataBean> couponsBeanBaseResponse) throws Exception {
@@ -174,8 +172,6 @@ public class DataManager {
     }
 
     public Observable<BaseResponse<ArrayList<OrderHistoryBean>>> getOrderHistory(int pageNum, int pageSize,int businessStatus){
-        getResponse();
-        LogUtils.logd(getToken());
         return mHttpHelper.getOrderHistory(getToken(),pageNum,pageSize)
                 .map(new Function<BaseResponse<DataOrderHistory>, BaseResponse<ArrayList<OrderHistoryBean>>>() {
                     @Override
@@ -189,11 +185,11 @@ public class DataManager {
                                         .ORDER_STATUS_ALL:orderHistoryBeans.add(historyBean);
                                     break;
                                 case Constants.ORDER_STATUS_BOOK:
-                                    if (historyBean.getOrderInfo().getBusinessStatus()==Constants.ORDER_STATUS_WAIT)
+                                    if (historyBean.getOrderInfo().getBusinessStatus()==Constants.ORDER_STATUS_WAITPAY)
                                         orderHistoryBeans.add(historyBean);
                                     break;
                                 case Constants.ORDER_STATUS_WAITTAKE:
-                                    if (historyBean.getOrderInfo().getBusinessStatus()==Constants.ORDER_STATUS_PYA)
+                                    if (historyBean.getOrderInfo().getBusinessStatus()==Constants.ORDER_STATUS_WAITAKE)
                                         orderHistoryBeans.add(historyBean);
                                     break;
                             }
@@ -215,7 +211,34 @@ public class DataManager {
         return mHttpHelper.changeInfo(getToken(),user);
     }
 
+    public Observable<BaseResponse<PrePayInfoBean>> getOrderInfo(int chargeId, ArrayList<ShopCardFoodBean> foodBeans){
+        ArrayList<SubmitOrderBean.FoodOptionListBean> foodOptionListBeans=new ArrayList<>();
+      for (ShopCardFoodBean foodBean: foodBeans){
+          SubmitOrderBean.FoodOptionListBean optionListBean;
+          String optionCode=null;
+          if (foodBean.getSelectionsBeans()!=null){
+               optionCode=1+"="+foodBean.getSelectionsBeans().getSelectId();
+          }
+          optionListBean=new SubmitOrderBean.FoodOptionListBean(foodBean.getFoodListBean().getFoodId(),foodBean.getQuantity(),optionCode);
+          foodOptionListBeans.add(optionListBean);
 
+      }
+        SubmitOrderBean submitOrderBean=new SubmitOrderBean(chargeId,foodOptionListBeans);
+
+        return mHttpHelper.getOrderInfo(getToken(),System.currentTimeMillis(),submitOrderBean);
+    }
+
+    public Observable<BaseResponse> logout(){
+        return mHttpHelper.logout(getToken(),getUserPhone());
+    }
+
+   public Observable<BaseResponse<WechatPayBean>> payRequest( PayRequestBean payRequestBean){
+        return mHttpHelper.payRequest(getToken(),payRequestBean);
+    }
+
+   public Observable<BaseResponse<ArrayList<HistoryIntegralBean>>> queryIntegralHistory(){
+        return mHttpHelper.queryIntegralHistory(getToken());
+    }
 
     //sharepreference
 
@@ -224,6 +247,7 @@ public class DataManager {
     }
 
     String getToken(){
+        LogUtils.logd(mPreferenceHelper.getToken());
         return mPreferenceHelper.getToken();
     }
 
@@ -261,5 +285,9 @@ public class DataManager {
 
     public String getrRefreshToken(){
         return mPreferenceHelper.getrefreshToken();
+    }
+
+    public void cleanData(){
+        mDbhelper.cleaData();
     }
 }

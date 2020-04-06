@@ -1,7 +1,6 @@
 package com.example.emmproject.ui.order.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -17,17 +15,13 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.emmproject.R;
 import com.example.emmproject.contract.order.OrderFragmentContract;
-import com.example.emmproject.core.bean.ElemeGroupedItem;
 import com.example.emmproject.core.bean.order.ShopCardFoodBean;
 import com.example.emmproject.core.bean.order.StoreFoodBean.FoodListBean;
-import com.example.emmproject.utils.DialogUtils;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class ShoppingCardAdapter extends RecyclerView.Adapter<ShoppingCardAdapter.ViewHolder> {
 
@@ -64,15 +58,7 @@ public class ShoppingCardAdapter extends RecyclerView.Adapter<ShoppingCardAdapte
         holder.titleTv.setText(food.getName());
         holder.contentTv.setText(food.getIntroduction());
         holder.costTv.setText(Double.parseDouble(item.getFoodListBean().getPrice())*item.getQuantity()+"");
-
-      /*  if (( item.info).getQuantity()>0)
-        {  holder.reduceBt .setVisibility(View.VISIBLE);
-            holder.quantityTv.setVisibility(View.VISIBLE);
-        }
-        else {
-            holder.reduceBt.setVisibility(View.GONE);
-            holder.quantityTv.setVisibility(View.GONE);}
-*/
+        holder.quantityTv.setText(item.getQuantity()+"");
         holder.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

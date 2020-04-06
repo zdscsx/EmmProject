@@ -6,7 +6,8 @@ import com.example.emmproject.contract.main.VerifyCodeContract;
 import com.example.emmproject.core.BaseObserver;
 import com.example.emmproject.core.BaseResponse;
 import com.example.emmproject.core.DataManager;
-import com.example.emmproject.core.bean.LoginBean;
+import com.example.emmproject.core.TipObserver;
+import com.example.emmproject.core.bean.main.LoginBean;
 import com.example.emmproject.core.bean.mine.User;
 import com.example.emmproject.utils.LogUtils;
 import com.example.emmproject.utils.RxUtils;
@@ -29,16 +30,20 @@ public class VerifyCodePresenter extends BasePresenter<VerifyCodeContract.View >
     @Override
     public void getVreifyCode(String phoneNumber) {
 
+
       addSubscribe( mDataManager.getVerifyCode(phoneNumber).compose(RxUtils.rxSchedulerHelper()).
-               subscribeWith(new BaseObserver(mView,"获取验证码失败"){
+               subscribeWith(new TipObserver(mView,"获取验证码失败"){
                    @Override
                    public void onSucceed(BaseResponse baseResponse) {
                        super.onSucceed(baseResponse);
-                       mView.getCodeSuccess(baseResponse.getMessage());
+                       try {
+                           mView.getCodeSuccess(baseResponse.getMessage());
+                       } catch (Exception e){
+                           LogUtils.loge(e);
+                       }
 
                    }
-       }));
-    }
+       }));}
 
     @Override
     public void verifyCode(String phone,String code,String message) {
@@ -48,13 +53,12 @@ public class VerifyCodePresenter extends BasePresenter<VerifyCodeContract.View >
                 .subscribeWith(new ResourceObserver<Response<BaseResponse<User>>>(){
                     @Override
                     public void onNext(Response<BaseResponse<User>> userResponse) {
-                        LogUtils.logd(new Gson().toJson(userResponse));
                         if (userResponse.body().getCode()== Constants.STSTUS_SUCCESS)
-                        {   mDataManager.saveUser(userResponse.body().getData());
+                        {
+                            mDataManager.saveUser(userResponse.body().getData());
                             mDataManager.setUesrPhone(userResponse.body().getData().getPhone());
                             mDataManager.saveTooken(userResponse.headers().get("token"));
                             mDataManager.savaRefreshToken(userResponse.headers().get("refresh_token"));
-                            LogUtils.logd(mDataManager.getrRefreshToken());
                             mView.verifySucceed();
                         }
                         else {

@@ -27,4 +27,9 @@ public class DbHelperImpl implements DbHelper {
     public User getUser(String phone) {
         return mUSerDao.queryBuilder().where(UserDao.Properties.Phone.eq(phone)).unique();
     }
+
+    @Override
+    public void cleaData() {
+        mUSerDao.deleteAll();
+    }
 }

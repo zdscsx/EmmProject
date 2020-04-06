@@ -2,7 +2,9 @@ package com.example.emmproject.core.bean.history;
 
 import com.google.gson.Gson;
 
-public class OrderInfoBean {
+import java.io.Serializable;
+
+public class OrderInfoBean implements Serializable {
 
     /**
      *                 // 订单信息

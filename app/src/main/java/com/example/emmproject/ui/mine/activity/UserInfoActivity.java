@@ -1,5 +1,7 @@
 package com.example.emmproject.ui.mine.activity;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -9,23 +11,59 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.emmproject.R;
 import com.example.emmproject.base.activity.BaseActivity;
 import com.example.emmproject.contract.mine.UserInfoContract;
+import com.example.emmproject.core.bean.history.HistoryIntegralBean;
+import com.example.emmproject.core.bean.mine.IntegralBean;
 import com.example.emmproject.presenter.mine.UserInfoPresenter;
+import com.example.emmproject.ui.mine.adapter.IntrgralAdapter;
+import com.example.emmproject.utils.CommonUtils;
 import com.example.emmproject.utils.DialogUtils;
+import com.example.emmproject.utils.LogUtils;
+import com.example.emmproject.widget.MyBounceInterpolator;
+import com.flyco.tablayout.CommonTabLayout;
 import com.kongzue.dialog.v3.CustomDialog;
 
+import java.util.ArrayList;
+
+import butterknife.BindView;
 import butterknife.OnClick;
 import ezy.ui.view.RoundButton;
+import me.zhouzhuo.zzhorizontalprogressbar.ZzHorizontalProgressBar;
 
 public class UserInfoActivity extends BaseActivity<UserInfoPresenter > implements UserInfoContract.View {
 
 
+    @BindView(R.id.pb_userinfo_integral)
+    ZzHorizontalProgressBar mProgressBar;
+    @BindView(R.id.tv_userinfo_integral_big)
+    TextView tvBigIntegral;
+    @BindView(R.id.tv_userinfo_integral_small)
+    TextView tvSamllIntegral;
+    @BindView(R.id.tv_userinfo_integral)
+    TextView tvIntegral;
+    @BindView(R.id.rv_userinfo_integral)
+    RecyclerView rvIntegralList;
+    @BindView(R.id.tv_userinfo_get)
+    TextView tvGet;
+    @BindView(R.id.view_userinfo_indicator)
+    android.view.View indicator;
+    @BindView(R.id.ly_empty)
+    LinearLayout lyEmpty;
+    @BindView(R.id.tv_empty_tip)
+     TextView tvEmpty;
 
 
-    @OnClick({R.id.rl_userinfo_birthday,R.id.rl_userinfo_year,R.id.ly_userinfo_edit,R.id.tv_userinfo_rule})
+
+    boolean isSelectGet=true;
+    private IntrgralAdapter mIntrgralAdapter;
+    private ArrayList<HistoryIntegralBean >mIntegralBeans;
+
+    @OnClick({R.id.rl_userinfo_birthday,R.id.rl_userinfo_year,R.id.ly_userinfo_edit,R.id.tv_userinfo_rule,R.id.tv_userinfo_get,R.id.tv_userinfo_reduce})
     void onClick(View  view){
         switch (view.getId()){
             case R.id.rl_userinfo_birthday:
@@ -46,8 +84,29 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter > implement
                 ChangeUserInfoActivity.startActivity(this);
                 break;
             case R.id.tv_userinfo_rule:
+
+            case R.id.tv_userinfo_get:
+                if (!isSelectGet){
+                    startAniamtionToX(0);
+                }
+                mPresenter.queryIntrgalHistory();
+                isSelectGet=true;
+                break;
+             case R.id.tv_userinfo_reduce:
+                 showEmpty();
+                 if (isSelectGet){
+                     startAniamtionToX(tvGet.getMeasuredWidth());
+                 }
+                 isSelectGet=false;
+                 break;
         }
 
+    }
+    void startAniamtionToX(float x){
+        ValueAnimator valueAnimator= ObjectAnimator.ofFloat(indicator,"translationX",x);
+        valueAnimator.setInterpolator(new MyBounceInterpolator(0.2,10));
+        valueAnimator.setDuration(500);
+        valueAnimator.start();
     }
 
     public static void startActivity(Context context){
@@ -67,6 +126,46 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter > implement
 
     @Override
     protected void initEventAndData() {
+        mIntegralBeans=new ArrayList<>();
+        mIntrgralAdapter = new IntrgralAdapter(mIntegralBeans);
+        rvIntegralList.setLayoutManager(new LinearLayoutManager(this));
+         rvIntegralList.setAdapter(mIntrgralAdapter);
+        mPresenter.getIntegral();
+        mPresenter.queryIntrgalHistory();
+    }
 
+
+    @Override
+    public void showIntegral(IntegralBean integralBean) {
+
+            String integral=integralBean.getIntegral();
+            String covertIntegral=integralBean.getCovertIntegral();
+            tvIntegral.setText(integral);
+            String[] cintegral =integralBean.getCovertIntegral().split("\\.");
+            tvBigIntegral.setText(cintegral[0]+".");
+            tvSamllIntegral.setText(cintegral[1]);
+            integral= integral=integral.replace(",","");
+            covertIntegral= covertIntegral.replace(",","");
+            mProgressBar.setMax((int) (CommonUtils.stringToFloat(integral)*100));
+            mProgressBar.setProgress((int)(CommonUtils.stringToFloat(integral)*100)-(int) CommonUtils.stringToFloat(covertIntegral)*100);
+
+
+    }
+
+    @Override
+    public void showIntrgalList(ArrayList<HistoryIntegralBean> integralBeans) {
+        rvIntegralList.setVisibility(View.VISIBLE);
+        lyEmpty.setVisibility(View.GONE);
+        mIntegralBeans.clear();
+        mIntegralBeans.addAll(integralBeans);
+        mIntrgralAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showEmpty() {
+
+        lyEmpty.setVisibility(View.VISIBLE);
+        tvEmpty.setText("暂无积分记录");
+        rvIntegralList.setVisibility(View.GONE);
     }
 }

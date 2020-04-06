@@ -91,6 +91,9 @@ public class CommonUtils {
    }*/
 
 
+   public static float stringToFloat(String s){
+    return  Math.round(Float.parseFloat(s)*100)/100.0f;
+   }
 
     /**
      * dip-->px

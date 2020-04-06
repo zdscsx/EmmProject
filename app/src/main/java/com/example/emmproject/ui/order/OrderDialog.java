@@ -15,9 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.emmproject.R;
-import com.example.emmproject.contract.history.OrderInfoContract;
 import com.example.emmproject.contract.order.OrderFragmentContract;
-import com.example.emmproject.core.bean.ElemeGroupedItem;
+import com.example.emmproject.core.bean.order.ElemeGroupedItem;
 import com.example.emmproject.core.bean.order.ShopCardFoodBean;
 import com.example.emmproject.core.bean.order.StoreFoodBean;
 import com.example.emmproject.utils.LogUtils;
@@ -130,7 +129,7 @@ public class OrderDialog {
                 showQuantityAndPrice();
                 break;
             case R.id.bt_orderdialog_addshop:
-                shopCardFoodBean.changeQuantity(true);
+                mCallback.onAddItem(shopCardFoodBean);
                 showQuantityAndPrice();
                 btAddShop.setVisibility(View.GONE);
                 rlchange.setVisibility(View.VISIBLE);
@@ -195,6 +194,8 @@ public class OrderDialog {
         tvQuantity.setText(mQuantity+"");
         tvCost.setText(mQuantity>0?mQuantity*mPrice+"":mPrice+"");
     }
+
+
 
 
 }

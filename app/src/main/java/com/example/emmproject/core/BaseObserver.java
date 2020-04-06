@@ -11,23 +11,22 @@ import io.reactivex.observers.ResourceObserver;
 
 public class BaseObserver<T> extends ResourceObserver<BaseResponse<T>> {
 
-    private AbstractView mView;
+    public AbstractView view;
     private String mMessage;
 
 
     public BaseObserver(AbstractView mView, String mMessage) {
         this.mMessage=mMessage;
-        this.mView = mView;
+        this.view = mView;
     }
 
     @Override
     protected void onStart() {
-        mView.showWaiting();
         super.onStart();
     }
 
     public BaseObserver(AbstractView mView) {
-        this.mView = mView;
+        this.view = mView;
     }
 
     @Override
@@ -39,7 +38,6 @@ public class BaseObserver<T> extends ResourceObserver<BaseResponse<T>> {
         else {
             onFail(tBaseResponse.getMessage());
         }
-        mView.cancelWaiting();
     }
 
     public void onFail(String cause){
@@ -53,11 +51,9 @@ public class BaseObserver<T> extends ResourceObserver<BaseResponse<T>> {
 
     @Override
     public void onError(Throwable e) {
-        mView.cancelWaiting();
+
+        onFail(e.getCause()+"");
         LogUtils.loge(e);
-      if(mView!=null){
-            mView.showErrorMessage("message: "+e.getMessage()+"  cause: "+e.getCause());
-        }
 
     }
 

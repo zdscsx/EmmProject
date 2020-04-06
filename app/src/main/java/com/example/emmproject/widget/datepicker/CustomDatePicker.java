@@ -31,9 +31,10 @@ public class CustomDatePicker implements View.OnClickListener, PickerView.OnSele
     private Calendar mBeginTime, mEndTime, mSelectedTime;
     private boolean mCanDialogShow;
 
+    private View barrier1,barrier2;
     private Dialog mPickerDialog;
     private PickerView mDpvYear, mDpvMonth, mDpvDay, mDpvHour, mDpvMinute;
-    private TextView mTvHourUnit, mTvMinuteUnit;
+    private TextView mTvHourUnit, mTvMinuteUnit,mTvYear,mTvMonth,mTvDay;
 
     private int mBeginYear, mBeginMonth, mBeginDay, mBeginHour, mBeginMinute,
             mEndYear, mEndMonth, mEndDay, mEndHour, mEndMinute;
@@ -138,6 +139,11 @@ public class CustomDatePicker implements View.OnClickListener, PickerView.OnSele
         mDpvHour.setOnSelectListener(this);
         mDpvMinute = mPickerDialog.findViewById(R.id.dpv_minute);
         mDpvMinute.setOnSelectListener(this);
+        mTvYear=mPickerDialog.findViewById(R.id.tv_year);
+        mTvMonth=mPickerDialog.findViewById(R.id.tv_momth);
+        mTvDay=mPickerDialog.findViewById(R.id.tv_day);
+        barrier1=mPickerDialog.findViewById(R.id.barrier_one);
+        barrier2=mPickerDialog.findViewById(R.id.barrier_two);
     }
 
     @Override
@@ -562,6 +568,8 @@ public class CustomDatePicker implements View.OnClickListener, PickerView.OnSele
     /**
      * 设置日期控件是否显示时和分
      */
+
+
     public void setCanShowPreciseTime(boolean canShowPreciseTime) {
         if (!canShow()) return;
 
@@ -589,6 +597,22 @@ public class CustomDatePicker implements View.OnClickListener, PickerView.OnSele
                 mScrollUnits ^= unit;
             }
         }
+    }
+
+
+    /**
+     * 设置只显示时分
+     */
+    public void onlyShowPreciseTime(){
+        mTvYear.setVisibility(View.GONE);
+        mDpvYear.setVisibility(View.GONE);
+        mTvMonth.setVisibility(View.GONE);
+        mDpvMonth.setVisibility(View.GONE);
+        mTvDay.setVisibility(View.GONE);
+        mDpvDay.setVisibility(View.GONE);
+        barrier2.setVisibility(View.VISIBLE);
+        barrier1.setVisibility(View.VISIBLE);
+
     }
 
     /**

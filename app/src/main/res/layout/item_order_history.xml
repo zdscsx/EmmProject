@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="5dp"
     android:background="@color/white"
@@ -11,7 +11,7 @@
     app:cardCornerRadius="5dp"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/white"
-    app:cardElevation="2dp"
+    app:cardElevation="4dp"
     app:cardMaxElevation="2dp"
     >
 
@@ -30,7 +30,9 @@
         android:text="广东工业大学"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
+        android:maxWidth="300dp"
+        android:layout_marginRight="10dp"
         android:layout_height="wrap_content"/>
     <TextView
         android:text="已取消"
@@ -67,11 +69,11 @@
         android:maxLines="1"
         android:text="焦糖加浓美式"
         app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintBottom_toTopOf="@id/tv_orderhistory_option"
+        app:layout_constraintBottom_toBottomOf="@id/iv_orderhistory_pic"
         app:layout_constraintLeft_toRightOf="@id/iv_orderhistory_pic"
         app:layout_constraintTop_toTopOf="@id/iv_orderhistory_pic"
      />
-    <TextView
+<!--    <TextView
         android:maxWidth="200dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,7 +85,7 @@
         app:layout_constraintLeft_toRightOf="@id/iv_orderhistory_pic"
         app:layout_constraintTop_toBottomOf="@id/tv_orderhistory_foodname"
         />
-
+-->
     <TextView
         android:maxWidth="200dp"
         android:textSize="@dimen/textview_size_small"
@@ -102,19 +104,20 @@
         android:id="@+id/tv_orderhistory_quantity"
         android:maxLines="1"
         android:text="共一件商品"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/tv_orderhistory_cost"
         app:layout_constraintTop_toTopOf="@id/tv_orderhistory_cost"
         app:layout_constraintRight_toLeftOf="@id/tv_orderhistory_cost"
-        android:layout_marginRight="2dp"
+        android:layout_marginRight="4dp"
         />
     <TextView
-        android:gravity="center"
-        android:textSize="@dimen/textview_size_normal"
         android:textColor="@color/black"
+        android:gravity="center"
         android:layout_marginTop="10dp"
         android:text="$5"
+        android:textSize="@dimen/textview_size_small"
         android:id="@+id/tv_orderhistory_cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -125,11 +128,12 @@
         android:id="@+id/bt_orderhistory_more"
         android:text=" 再来一单 "
         android:textSize="@dimen/textview_size_small"
-        android:padding="2dp"
+        android:padding="5dp"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_orderhistory_cost"
         app:btnStrokeColor="@color/blue"

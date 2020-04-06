@@ -1,24 +1,21 @@
 package com.example.emmproject.ui.order.adapter;
 
 import android.content.Context;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.emmproject.app.Constants;
 import com.example.emmproject.contract.order.OrderFragmentContract;
-import com.example.emmproject.core.bean.ElemeGroupedItem;
+import com.example.emmproject.core.bean.order.ElemeGroupedItem;
 import com.example.emmproject.R;
 import com.example.emmproject.core.bean.order.ShopCardFoodBean;
 import com.example.emmproject.core.bean.order.StoreFoodBean;
 import com.example.emmproject.ui.order.OrderDialog;
-import com.example.emmproject.utils.DialogUtils;
 import com.kunminx.linkage.adapter.viewholder.LinkageSecondaryFooterViewHolder;
 import com.kunminx.linkage.adapter.viewholder.LinkageSecondaryHeaderViewHolder;
 import com.kunminx.linkage.adapter.viewholder.LinkageSecondaryViewHolder;
@@ -63,7 +60,10 @@ public class ProductConfig implements ILinkageSecondaryAdapterConfig {
             TextView nameTv=(TextView )holder.getView(R.id.tv_second_title);
             TextView priceTv=(TextView)holder.getView(R.id.tv_second_cost);
             priceTv.setText(food.getPrice());
-            Glide.with(mContext).load(food.getMainImage()) .apply(RequestOptions.centerCropTransform()).into(imageView);
+            RoundedCorners roundedCorners=new RoundedCorners(Constants.ROUND_CORNERS);
+            RequestOptions coverRequestOptions = new RequestOptions()
+                    .transforms(new CenterCrop(),roundedCorners);
+            Glide.with(mContext).load(food.getMainImage()) .apply(coverRequestOptions).into(imageView);
             contentTv.setText(food.getIntroduction());
             nameTv.setText(food.getName());
            /* ImageButton addButton=(ImageButton) holder.getView(R.id.bt_order_add);

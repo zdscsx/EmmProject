@@ -17,6 +17,7 @@ import com.example.emmproject.base.activity.BaseActivity;
 import com.example.emmproject.contract.mine.ChangeUserInfoContract;
 import com.example.emmproject.core.bean.mine.User;
 import com.example.emmproject.presenter.mine.ChangeUserInfoPresenter;
+import com.example.emmproject.ui.main.MainActivity;
 import com.example.emmproject.utils.DateUtils;
 import com.example.emmproject.utils.LogUtils;
 import com.example.emmproject.widget.datepicker.CustomDatePicker;
@@ -55,7 +56,7 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
 
     private User mUser;
 
-    @OnClick({R.id.rl_changeinfo_photo,R.id.rl_changeinfo_birthday,R.id.rl_changeinfo_name})
+    @OnClick({R.id.rl_changeinfo_photo,R.id.rl_changeinfo_birthday,R.id.rl_changeinfo_name,R.id.bt_changeinfo_logout})
     void onClick(View view){
         switch (view.getId()){
             case R.id.rl_changeinfo_photo:
@@ -106,6 +107,8 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
                             }
                         }).show();
                 break;
+            case R.id.bt_changeinfo_logout:
+                mPresenter.logout();
 
 
         }
@@ -192,5 +195,10 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
                 .placeholder(R.mipmap.imageview_defaultavatar)
                 .error(R.mipmap.imageview_defaultavatar).into(ivPic);
 
+    }
+
+    @Override
+    public void logoutSuccess() {
+        MainActivity.startActicity(this);
     }
 }

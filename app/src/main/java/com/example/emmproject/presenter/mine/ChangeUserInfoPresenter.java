@@ -5,6 +5,7 @@ import com.example.emmproject.contract.mine.ChangeUserInfoContract;
 import com.example.emmproject.core.BaseObserver;
 import com.example.emmproject.core.BaseResponse;
 import com.example.emmproject.core.DataManager;
+import com.example.emmproject.core.TipObserver;
 import com.example.emmproject.core.bean.mine.User;
 import com.example.emmproject.utils.LogUtils;
 import com.example.emmproject.utils.RxUtils;
@@ -25,12 +26,11 @@ public class ChangeUserInfoPresenter extends BasePresenter<ChangeUserInfoContrac
     public void uploadPic(LocalMedia pic) {
        mView.showWaiting();
        addSubscribe(dataManager.changePic(pic).compose(RxUtils.rxSchedulerHelper())
-               .subscribeWith(new BaseObserver<String>(mView){
+               .subscribeWith(new TipObserver<String>(mView){
                    @Override
                    public void onSucceed(BaseResponse<String> stringBaseResponse) {
                        super.onSucceed(stringBaseResponse);
                        mView.changePicSuccess();
-                       LogUtils.logd(new Gson().toJson(stringBaseResponse));
                        User user=dataManager.getUser();
                        user.setAvatar(stringBaseResponse.getData());
                        dataManager.saveUser(user);
@@ -48,7 +48,7 @@ public class ChangeUserInfoPresenter extends BasePresenter<ChangeUserInfoContrac
 
     @Override
     public void getUser() {
-        addSubscribe(dataManager.getUserFormHttp().compose(RxUtils.rxSchedulerHelper()).subscribeWith(new BaseObserver<User>(mView){
+        addSubscribe(dataManager.getUserFormHttp().compose(RxUtils.rxSchedulerHelper()).subscribeWith(new TipObserver<User>(mView){
             @Override
             public void onSucceed(BaseResponse<User> userBaseResponse) {
                 mView.showUser(userBaseResponse.getData());
@@ -60,7 +60,7 @@ public class ChangeUserInfoPresenter extends BasePresenter<ChangeUserInfoContrac
     @Override
     public void changeUserInfo(User user) {
         addSubscribe(dataManager.changeInfo(user).compose(RxUtils.rxSchedulerHelper())
-        .subscribeWith(new BaseObserver<User>(mView){
+        .subscribeWith(new TipObserver<User>(mView){
             @Override
             public void onSucceed(BaseResponse<User> userBaseResponse) {
                 super.onSucceed(userBaseResponse);
@@ -74,5 +74,27 @@ public class ChangeUserInfoPresenter extends BasePresenter<ChangeUserInfoContrac
                 mView.showToast("更新用户信息失败");
             }
         }));
+    }
+
+    @Override
+    public void logout() {
+       addSubscribe( dataManager.logout()
+               .compose(RxUtils.rxSchedulerHelper())
+               .subscribeWith(new TipObserver(mView){
+
+                   @Override
+                   public void onSucceed(BaseResponse baseResponse) {
+                       super.onSucceed(baseResponse);
+                       mView.logoutSuccess();
+                       dataManager.cleanData();
+                   }
+
+                   @Override
+                   public void onFail(String cause) {
+                       super.onFail(cause);
+                       mView.logoutSuccess();
+                       dataManager.cleanData();
+                   }
+               }));
     }
 }

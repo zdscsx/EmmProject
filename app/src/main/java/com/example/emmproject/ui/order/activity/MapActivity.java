@@ -15,10 +15,8 @@ import com.example.emmproject.R;
 import com.example.emmproject.ui.order.adapter.MarkListAdapter;
 import com.example.emmproject.base.activity.BaseActivity;
 import com.example.emmproject.contract.order.MapContract;
-import com.example.emmproject.core.bean.MarkLocationBean;
+import com.example.emmproject.core.bean.order.MarkLocationBean;
 import com.example.emmproject.presenter.order.MapPresenter;
-import com.example.emmproject.utils.LogUtils;
-import com.google.gson.Gson;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
@@ -31,7 +29,6 @@ import com.tencent.tencentmap.mapsdk.map.TencentMap;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -104,16 +101,18 @@ public class MapActivity extends  BaseActivity<MapPresenter> implements  MapCont
 
     @Override
     protected void initEventAndData() {
-    /*    mMarkLocationBeans=new ArrayList<>();
+        requestPermissions();
+
+        mMarkLocationBeans=new ArrayList<>();
         mMarkListAdapter=new MarkListAdapter(this,mMarkLocationBeans);
         rvMrakList.setLayoutManager(new LinearLayoutManager(this));
         rvMrakList.setAdapter(mMarkListAdapter);
         mMarkListAdapter.setmProjection(mapView.getProjection());
         mPresenter.getMarkLocation();
-        requestPermissions();
         mTencentMap=mapView.getMap();
         mTencentMap.setZoom(15);
-*/
+        getLocation();
+
        /* TencentMap tencentMap=mapView.getMap();
         tencentMap.setMyLocationEnabled(true);
     /*    mapView.getMap().setPointToCenter(0,0);
@@ -128,19 +127,20 @@ public class MapActivity extends  BaseActivity<MapPresenter> implements  MapCont
                         .defaultMarker())
                 .draggable(true));
         marker.showInfoWindow();// 设置默认显示一个infoWindow*/
-      getLocation(); }
+
+    }
 
     public void getLocation(){
 
         TencentLocationListener tencentLocationListener=new TencentLocationListener() {  //定位监听 获取当前位置
             @Override
             public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
-
-              /*  mCurrentLatlng=new LatLng(tencentLocation.getLatitude(),tencentLocation.getLongitude());
+                mCurrentLatlng=new LatLng(tencentLocation.getLatitude(),tencentLocation.getLongitude());
                 mMarkListAdapter.setmCurrentLatLng(mCurrentLatlng); //传入当前坐标后，刷新adapter 获取距离
                 mMarkListAdapter.notifyDataSetChanged();
-                mTencentMap.setCenter(mCurrentLatlng);*/
-                TencentLocationManager.getInstance(MapActivity.this).removeUpdates(this);            }
+                mTencentMap.setCenter(mCurrentLatlng);
+                TencentLocationManager.getInstance(MapActivity.this).removeUpdates(this);
+                  }
 
             @Override
             public void onStatusUpdate(String s, int i, String s1) { }

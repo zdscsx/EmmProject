@@ -61,7 +61,12 @@
         android:paddingEnd="20dp"
         android:paddingStart="20dp"
         android:paddingTop="15dp">
-
+        <View
+            android:visibility="gone"
+            android:id="@+id/barrier_one"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="10dp"/>
         <com.example.emmproject.widget.datepicker.PickerView
             android:id="@+id/dpv_year"
             android:layout_width="0dp"
@@ -69,6 +74,7 @@
             android:layout_weight="3" />
 
         <TextView
+            android:id="@+id/tv_year"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -84,6 +90,7 @@
             android:layout_weight="2" />
 
         <TextView
+            android:id="@+id/tv_momth"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -99,6 +106,7 @@
             android:layout_weight="2" />
 
         <TextView
+            android:id="@+id/tv_day"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -138,7 +146,12 @@
             android:text="@string/minute"
             android:textColor="@color/date_picker_text_dark"
             android:textSize="@dimen/date_unit_text_size" />
-
+<View
+    android:visibility="gone"
+    android:id="@+id/barrier_two"
+    android:layout_weight="3"
+    android:layout_width="0dp"
+    android:layout_height="10dp"/>
     </LinearLayout>
 
 </LinearLayout>

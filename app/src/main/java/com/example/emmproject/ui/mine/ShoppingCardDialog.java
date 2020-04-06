@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.emmproject.contract.order.OrderFragmentContract;
-import com.example.emmproject.core.bean.ElemeGroupedItem;
+import com.example.emmproject.core.bean.order.ElemeGroupedItem;
 import com.example.emmproject.ui.order.adapter.ShoppingCardAdapter;
 
 import java.util.ArrayList;

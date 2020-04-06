@@ -64,7 +64,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineFra
     @Override
     public void onResume() {
         if (mPresenter!=null)
-           // mPresenter.getUser();
+            mPresenter.getUser();
         super.onResume();
     }
 
@@ -97,6 +97,11 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineFra
     @Override
     public void showLoginView() {
         isLogin=false;
+        Glide.with(this).applyDefaultRequestOptions(RequestOptions.circleCropTransform())
+                .load(R.mipmap.imageview_defaultavatar)
+                .placeholder(R.mipmap.imageview_defaultavatar)
+                .error(R.mipmap.imageview_defaultavatar).into(ivAvater);
+        tvIntegeral.setText("");
         tvName.setText("点击登陆");
         tvName.setTextColor(getContext().getResources().getColor(R.color.blue));
 

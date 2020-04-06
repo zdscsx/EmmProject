@@ -15,8 +15,15 @@
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <TextView
+            android:gravity="center"
+            android:text="鲲鹏悦行"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textview_size_big"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
 
-        <RelativeLayout
+<!--        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"/>
         <RelativeLayout
@@ -34,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"/>
 
-        </RelativeLayout>
+        </RelativeLayout>-->
         <RelativeLayout
             android:id="@+id/rl_order_location"
             android:layout_margin="10dp"
@@ -50,17 +57,19 @@
                     android:id="@+id/ibt_order_start"
                     android:layout_width="15dp"
                     android:layout_height="15dp"/>
+
                 <TextView
-                    android:id="@+id/tv_order_location"
-                    android:textColor="@color/black"
-                    android:gravity="center_vertical"
+                    android:text=""
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/ibt_order_start"
-                    android:text="越秀金融大厦充电站"
-                    android:textSize="@dimen/textview_size_small"
+                    android:id="@+id/tv_order_location"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/ibt_order_start"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textview_size_small" />
+
                 <ImageView
                     android:layout_marginLeft="5dp"
                     android:layout_centerVertical="true"
@@ -75,7 +84,6 @@
                 android:textSize="@dimen/textview_size_min"
                 android:layout_alignParentBottom="true"
                 android:layout_width="wrap_content"
-                android:text="距离你3.8km"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
         <com.kunminx.linkage.LinkageRecyclerView
@@ -85,11 +93,10 @@
             android:layout_height="match_parent"/>
 
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ly_order_shopcard"
         android:background="@color/transparent"
         android:layout_gravity="bottom"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
       <com.example.emmproject.widget.LimitSizeLinearLayout
@@ -117,14 +124,17 @@
               android:layout_width="match_parent"
               android:layout_height="@dimen/divider_height"/>
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_weight="1"
             android:id="@+id/rv_order_shoppcardlist"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="0dp"/>
+
       </com.example.emmproject.widget.LimitSizeLinearLayout>
 
         <!--  敲重点 这里的shopcard的高度对应上面那层linearlayout的marginbottom     -->
 
         <RelativeLayout
+            android:layout_below="@+id/ly_order_shopcardlist"
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="60dp">
@@ -185,5 +195,5 @@
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>

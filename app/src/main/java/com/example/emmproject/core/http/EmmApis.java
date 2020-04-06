@@ -4,22 +4,23 @@ package com.example.emmproject.core.http;
 
 import com.example.emmproject.core.BaseResponse;
 import com.example.emmproject.core.bean.DataBean;
-import com.example.emmproject.core.bean.LoginBean;
-import com.example.emmproject.core.bean.LoginByPasswordBean;
-import com.example.emmproject.core.bean.MarkLocationBean;
+import com.example.emmproject.core.bean.history.HistoryIntegralBean;
+import com.example.emmproject.core.bean.main.LoginByPasswordBean;
+import com.example.emmproject.core.bean.order.MarkLocationBean;
 import com.example.emmproject.core.bean.history.DataOrderHistory;
-import com.example.emmproject.core.bean.history.OrderHistoryBean;
 import com.example.emmproject.core.bean.main.RefreshTokenBean;
-import com.example.emmproject.core.bean.mine.CouponsBean;
 import com.example.emmproject.core.bean.mine.CouponsDataBean;
 import com.example.emmproject.core.bean.mine.IntegralBean;
 import com.example.emmproject.core.bean.mine.User;
+import com.example.emmproject.core.bean.order.PayRequestBean;
+import com.example.emmproject.core.bean.order.PrePayInfoBean;
 import com.example.emmproject.core.bean.order.StoreFoodBean;
+import com.example.emmproject.core.bean.order.SubmitOrderBean;
+import com.example.emmproject.core.bean.order.WechatPayBean;
 
-import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 
 import io.reactivex.Observable;
-import io.reactivex.annotations.SchedulerSupport;
 import okhttp3.MultipartBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -27,6 +28,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -38,10 +40,11 @@ public interface EmmApis {
 
     @FormUrlEncoded
     @POST("charging-order/api/user/login")
-    Observable<Response<BaseResponse<User>>> login(@Field("phone") String phone,@Field("code") String code,@Header("sessionId") String message);
+    Observable<Response<BaseResponse<User>>> login(@Field("phone") String phone,@Field("code") String code,@Header("sessionId") String message,@Field("sign") String app);
 
+    @FormUrlEncoded
     @POST("charging-order/api/user/loginByPassword")
-     Observable<Response<BaseResponse<User>>> loginByPassword(@Body LoginByPasswordBean loginByPasswordBean);
+     Observable<Response<BaseResponse<User>>> loginByPassword(@Body LoginByPasswordBean loginByPasswordBean,@Field("sign") String app);
 
     @GET("charging-order/api/user/refreshCode/{phone}")
     Observable<BaseResponse<String>> getVerifyCode(@Path("phone") String phone);
@@ -59,7 +62,7 @@ public interface EmmApis {
     @POST("charging-order/api/file/photo")
     Observable<BaseResponse<String>>  changePic(@Header("token") String token,@Part MultipartBody.Part file);
 
-    @POST("charging-order/api/integralController/queryUserIntegral")
+    @GET("charging-order/api/integralController/queryUserIntegral")
     Observable<BaseResponse<IntegralBean>> getIntegral(@Header("token") String token);
 
      @GET("charging-order/api/coupon/getUserCoupons")
@@ -73,9 +76,21 @@ public interface EmmApis {
 
     @FormUrlEncoded
     @POST("charging-order/api/user/refreshToken")
-    Observable<BaseResponse<RefreshTokenBean>> refreshToken(@Field("refresh_token") String refreshToken,@Header("token" )String token,@Field("token") String t );
+    Observable<BaseResponse<RefreshTokenBean>> refreshToken(@Field("refresh_token") String refreshToken,@Header("token" )String token,@Field("token") String t,@Field("sign") String app );
 
     @POST("charging-order/api/user/update")
     Observable<BaseResponse<User>> changeInfo(@Header("token") String token,@Body User user);
+
+    @POST(" charging-order/api/order/settle")
+    Observable<BaseResponse<PrePayInfoBean>> getOrderInfo(@Header("token") String token, @Header("timestamp") long timestamp, @Body SubmitOrderBean submitOrderBean);
+
+    @GET("charging-order/api/user/logout/{phone}")
+    Observable<BaseResponse> logout(@Header("token") String token,@Path("phone") String phone);
+
+    @POST("charging-order/api/order/takeOrder")
+    Observable<BaseResponse<WechatPayBean>> payRequest(@Header("token") String tokrn,@Body PayRequestBean payRequestBean,@Header("timestamp") long timestamp);
+
+    @GET("charging-order/api/integralController/queryIntegral")
+    Observable<BaseResponse<ArrayList<HistoryIntegralBean>>> queryIntegralHistory(@Header("token") String token);
 
 }

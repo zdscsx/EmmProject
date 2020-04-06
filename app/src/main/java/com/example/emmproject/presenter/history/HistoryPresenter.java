@@ -5,6 +5,7 @@ import com.example.emmproject.contract.history.HistoryContract;
 import com.example.emmproject.core.BaseObserver;
 import com.example.emmproject.core.BaseResponse;
 import com.example.emmproject.core.DataManager;
+import com.example.emmproject.core.TipObserver;
 import com.example.emmproject.core.bean.history.OrderHistoryBean;
 import com.example.emmproject.utils.RxUtils;
 
@@ -29,7 +30,7 @@ public class HistoryPresenter extends BasePresenter<HistoryContract.View> implem
         else {
             addSubscribe( mDataManager.getOrderHistory(1,10,historyListType)
                     .compose(RxUtils.rxSchedulerHelper())
-                    .subscribeWith(new BaseObserver<ArrayList<OrderHistoryBean>>(mView){
+                    .subscribeWith(new TipObserver<ArrayList<OrderHistoryBean>>(mView){
                         @Override
                         public void onSucceed(BaseResponse<ArrayList<OrderHistoryBean>> baseResponse) {
                             super.onSucceed(baseResponse);

@@ -3,10 +3,6 @@ package com.example.emmproject.core.bean.order;
 import androidx.annotation.Nullable;
 
 import com.example.emmproject.core.bean.order.StoreFoodBean.*;
-import com.example.emmproject.core.bean.ElemeGroupedItem;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class ShopCardFoodBean {
 

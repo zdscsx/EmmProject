@@ -1,10 +1,12 @@
-package com.example.emmproject.core.bean;
+package com.example.emmproject.core.bean.order;
 
 import com.google.gson.Gson;
 
-public class MarkLocationBean {
+import java.io.Serializable;
 
+public class MarkLocationBean implements Serializable {
 
+public static long serialversionUID=123456789;
     /**
      * chargeId : 123
      * name : 越秀金融大厦充电站
@@ -22,6 +24,7 @@ public class MarkLocationBean {
     private String lng;
     private String workBeginTime;
     private String workEndTime;
+    private float distance;
 
     public static MarkLocationBean objectFromData(String str) {
 
@@ -82,5 +85,14 @@ public class MarkLocationBean {
 
     public void setWorkEndTime(String workEndTime) {
         this.workEndTime = workEndTime;
+    }
+
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
     }
 }

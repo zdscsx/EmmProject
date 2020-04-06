@@ -1,24 +1,28 @@
 package com.example.emmproject.core.http;
 
+import com.example.emmproject.contract.order.SubmitOrderContract;
 import com.example.emmproject.core.BaseResponse;
 import com.example.emmproject.core.bean.DataBean;
-import com.example.emmproject.core.bean.LoginBean;
-import com.example.emmproject.core.bean.LoginByPasswordBean;
-import com.example.emmproject.core.bean.MarkLocationBean;
+import com.example.emmproject.core.bean.history.HistoryIntegralBean;
+import com.example.emmproject.core.bean.main.LoginBean;
+import com.example.emmproject.core.bean.main.LoginByPasswordBean;
+import com.example.emmproject.core.bean.order.MarkLocationBean;
 import com.example.emmproject.core.bean.history.DataOrderHistory;
-import com.example.emmproject.core.bean.history.OrderHistoryBean;
 import com.example.emmproject.core.bean.main.RefreshTokenBean;
-import com.example.emmproject.core.bean.mine.CouponsBean;
 import com.example.emmproject.core.bean.mine.CouponsDataBean;
 import com.example.emmproject.core.bean.mine.IntegralBean;
 import com.example.emmproject.core.bean.mine.User;
+import com.example.emmproject.core.bean.order.PayRequestBean;
+import com.example.emmproject.core.bean.order.PrePayInfoBean;
 import com.example.emmproject.core.bean.order.StoreFoodBean;
+import com.example.emmproject.core.bean.order.SubmitOrderBean;
+import com.example.emmproject.core.bean.order.WechatPayBean;
+
+import java.util.ArrayList;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.Response;
-import retrofit2.http.Field;
-import retrofit2.http.Part;
 
 public interface HttpHelper {
 
@@ -48,6 +52,15 @@ public interface HttpHelper {
       Observable<BaseResponse<RefreshTokenBean>> refreshToken(String refreshToken,String token );
 
       Observable<BaseResponse<User>> changeInfo(String token,User user);
+      //点餐结算
+      Observable<BaseResponse<PrePayInfoBean>> getOrderInfo(String token, long timestamp, SubmitOrderBean submitOrderBean);
+
+      Observable<BaseResponse> logout( String token,String phone);
+
+      //支付
+      Observable<BaseResponse<WechatPayBean>> payRequest(String tokrn, PayRequestBean payRequestBean);
+         //获取历史积分记录
+     Observable<BaseResponse<ArrayList<HistoryIntegralBean>>> queryIntegralHistory(String token);
 
 
 

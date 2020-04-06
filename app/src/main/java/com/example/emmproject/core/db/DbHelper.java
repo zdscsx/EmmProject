@@ -7,4 +7,6 @@ public interface DbHelper {
      void saveUser(User user);
 
      User getUser(String phone);
+
+     void cleaData();
 }

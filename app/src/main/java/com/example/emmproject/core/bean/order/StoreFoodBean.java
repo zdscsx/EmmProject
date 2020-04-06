@@ -1,10 +1,7 @@
 package com.example.emmproject.core.bean.order;
 
-import android.os.AsyncTask;
-
 import androidx.annotation.Nullable;
 
-import com.example.emmproject.core.bean.ElemeGroupedItem;
 import com.google.gson.Gson;
 
 import java.util.List;

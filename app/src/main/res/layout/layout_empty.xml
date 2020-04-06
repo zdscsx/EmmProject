@@ -3,16 +3,15 @@
     android:id="@+id/ly_empty"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="180dp">
 
 
     <ImageView
         android:id="@+id/iv_empty_pic"
-        android:layout_marginTop="200dp"
         android:src="@mipmap/imageview_planet"
         android:layout_gravity="center"
-        android:layout_width="150dp"
-        android:layout_height="150dp"/>
+        android:layout_width="140dp"
+        android:layout_height="140dp"/>
     <TextView
         android:id="@+id/tv_empty_tip"
         android:layout_marginTop="10dp"

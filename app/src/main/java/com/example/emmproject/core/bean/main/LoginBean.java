@@ -1,4 +1,4 @@
-package com.example.emmproject.core.bean;
+package com.example.emmproject.core.bean.main;
 
 public class LoginBean {
     String phone;

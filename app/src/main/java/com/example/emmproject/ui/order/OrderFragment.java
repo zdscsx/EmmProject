@@ -11,19 +11,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.emmproject.R;
 import com.example.emmproject.app.EmmApplication;
+import com.example.emmproject.core.bean.order.MarkLocationBean;
+import com.example.emmproject.core.bean.order.PrePayInfoBean;
+import com.example.emmproject.ui.order.activity.SubmitOrderActivity;
 import com.example.emmproject.ui.order.adapter.ProductConfig;
 import com.example.emmproject.ui.order.adapter.ShopConfig;
 import com.example.emmproject.base.fragment.BaseFragment;
 import com.example.emmproject.contract.order.OrderFragmentContract;
-import com.example.emmproject.core.bean.ElemeGroupedItem;
+import com.example.emmproject.core.bean.order.ElemeGroupedItem;
 import com.example.emmproject.core.bean.order.ShopCardFoodBean;
 import com.example.emmproject.presenter.order.OrderFragmentPresenter;
 import com.example.emmproject.ui.order.activity.MapActivity;
@@ -53,11 +56,17 @@ public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implemen
     @BindView(R.id.bt_order_pay)
     Button payBt;
     @BindView(R.id.ly_order_shopcard)
-    LinearLayout lyshopCard;
+    RelativeLayout lyshopCard;
     @BindView(R.id.ly_order_shopcardlist)
     LimitSizeLinearLayout lYshopcardLsit;
     @BindView(R.id.fl_order)
     FrameLayout mFrameLayout;
+    @BindView(R.id.tv_order_location)
+    TextView tvLocation;
+    @BindView(R.id.tv_order_distance)
+    TextView tvDistance;
+
+    private MarkLocationBean mLocationBean;
     private boolean isShopcardShow=false;
     private Integer quantity=0;
     private ShopConfig mShopConfig;
@@ -68,15 +77,22 @@ public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implemen
     private View  mPopupview;
     private PopupWindow mPopupWindow;
 
-    public static OrderFragment newInstance() {
-        OrderFragment fragment = new OrderFragment();
-        return fragment;
+
+    private static volatile OrderFragment orderFragment;
+
+    public static OrderFragment getInstance() {
+        if (orderFragment==null){
+            synchronized (OrderFragment.class){
+                if (orderFragment==null)
+                    orderFragment=new OrderFragment();
+            }
+        }
+        return orderFragment;
     }
 
     @Override
     public void inject() {
         EmmApplication.getComponent().inject(this);
-
     }
 
 
@@ -86,11 +102,6 @@ public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implemen
 
     }
 
-
-    @Override
-    public void setMenuVisibility(boolean menuVisible) {
-        super.setMenuVisibility(menuVisible);
-    }
 
     private void initRecyclerView(){
         mShopConfig=new ShopConfig();
@@ -106,46 +117,29 @@ public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implemen
     }
 
 
-    @OnClick({R.id.rl_order_location,R.id.rl_order_search,R.id.bt_order_pay,R.id.view_order_showshoppcard})
+    @OnClick({R.id.rl_order_location,R.id.bt_order_pay,R.id.view_order_showshoppcard,R.id.tv_order_clear})
     void onCLick(View view){
         switch (view.getId()){
             case R.id.rl_order_location : MapActivity.startAvtivity(getContext());
                 break;
-            case R.id.rl_order_search :
-                SearchActivity.startActivity(getContext());
-                break;
+//            case R.id.rl_order_search :
+//                SearchActivity.startActivity(getContext());
+//                break;
             case R.id.bt_order_pay:
-                Toast.makeText(getContext(),"sa000",Toast.LENGTH_SHORT).show();
+                 mPresenter.submitOrder(mLocationBean.getChargeId(),shoppingCardList);
                 break;
             case R.id.view_order_showshoppcard:
                 changeShopCardState();
                  break;
+            case R.id.tv_order_clear:
+                shoppingCardList.clear();
+                quantity=0;
+                changeShopCardQuantity();
+                if (isShopcardShow)
+                changeShopCardState();
 
         }
     }
-
-    private void changeShopCardState(){
-        LogUtils.logd(shoppingCardList.size()+" size");
-        if (isShopcardShow) {
-            lYshopcardLsit.setVisibility(View.GONE);
-            mPopupWindow.dismiss();
-        }
-        else {
-            lYshopcardLsit.setVisibility(View.VISIBLE);
-            lyshopCard.post(new Runnable() {
-                @Override
-                public void run() {  //这个是购物车外的阴影效果 要post才可以获取到Measure后的高
-                    mPopupWindow=new PopupWindow(mPopupview, Toolbar.LayoutParams.MATCH_PARENT,
-                            mFrameLayout.getHeight()-lyshopCard.getHeight());
-                    mPopupWindow.showAtLocation(mFrameLayout,Gravity.TOP,0,0);
-                }
-            });
-
-        }
-
-        isShopcardShow=!isShopcardShow;
-    }
-
 
 
     @Override
@@ -156,15 +150,26 @@ public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implemen
     @Override
     protected void initEventAndData() {
         initRecyclerView();
+        mPopupview=LayoutInflater.from(getActivity()).inflate(R.layout.popupwindow_transparent,null,false);
+        mPopupview.setOnClickListener(o-> changeShopCardState());//点击view即购物车外面购物车消失
+        mPopupWindow=new PopupWindow(mPopupview, Toolbar.LayoutParams.MATCH_PARENT,
+                mFrameLayout.getHeight()-lyshopCard.getHeight());
+
 
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.getProduct(0);
-        mPopupview=LayoutInflater.from(getActivity()).inflate(R.layout.popupwindow_transparent,null,false);
-        mPopupview.setOnClickListener(o-> changeShopCardState());//点击view即购物车外面购物车消失
+
+    }
+
+    public void setMarkLocation(MarkLocationBean markLocation){
+        mLocationBean=markLocation;
+        tvLocation.setText(mLocationBean.getName());
+        if (markLocation.getDistance()!=0)
+        tvDistance.setText("距离你"+markLocation.getDistance()+"km");
+        mPresenter.getProduct(mLocationBean.getChargeId());
 
 
     }
@@ -172,43 +177,95 @@ public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implemen
     @Override
     public void showProduct(ArrayList<BaseGroupedItem<ElemeGroupedItem.ItemInfo>> itemInfos) {
         productList=itemInfos;
-
         recyclerView.init(productList,mShopConfig,mProductConfig);
 
+    }
+
+    @Override
+    public void toSubmitActivity(PrePayInfoBean prePayInfoBean) {
+        SubmitOrderActivity.startActivity(getActivity(),prePayInfoBean,mLocationBean);
     }
 
 
     @Override
     public void onAddItem(ShopCardFoodBean elemeGroupedItem) {
+
         elemeGroupedItem.changeQuantity(true);
-        payBt.setVisibility(View.VISIBLE);
        if (!shoppingCardList.contains(elemeGroupedItem))
             shoppingCardList.add(elemeGroupedItem);
-        if (shoppingCardAdapter!=null)
-            shoppingCardAdapter.notifyDataSetChanged();
-        recyclerView.getSecondaryAdapter().notifyDataSetChanged();
+       if(isShopcardShow){
+
+           shoppingCardRecyclerView.scrollToPosition(shoppingCardList.size()-1);
+       }
         quantity++;
-        numberTv.setText(quantity.toString());
-
-
+        changeShopCardQuantity();
     }
 
     @Override
     public void onReduceItem(ShopCardFoodBean elemeGroupedItem) {
         elemeGroupedItem.changeQuantity(false);
-        if (elemeGroupedItem.getQuantity()==0)
+        if (elemeGroupedItem.getQuantity()==0) {  //两种结果 如果购物车为空阴影直接消失，否则高度变化
             shoppingCardList.remove(elemeGroupedItem);
-        if (shoppingCardList.size()==0)
-        {
-            payBt.setVisibility(View.GONE);
-            if(isShopcardShow)
-            changeShopCardState();//如果
+            shoppingCardAdapter.notifyDataSetChanged();//notify后height变化，阴影高度改变
+            if (shoppingCardList.size()==0) {
+                if(isShopcardShow){
+                    changeShopCardState();
+                }
+            }
+            else {
+            if (isShopcardShow){
+                mPopupWindow.dismiss();
+                showPopupWindow();
+            }}
         }
-        if (shoppingCardAdapter!=null)
-            shoppingCardAdapter.notifyDataSetChanged();
-        recyclerView.getSecondaryAdapter().notifyDataSetChanged();
         quantity--;
+        changeShopCardQuantity();
+    }
+
+    void changeShopCardQuantity(){
+        if (shoppingCardList.size()!=0){
+            payBt.setVisibility(View.VISIBLE);
+        }
+        else {
+            payBt.setVisibility(View.GONE);
+        }
+        shoppingCardAdapter.notifyDataSetChanged();
+        recyclerView.getSecondaryAdapter().notifyDataSetChanged();
         numberTv.setText(quantity.toString());
     }
 
+
+
+
+    public void changeShopCardState(){
+        if (isShopcardShow) {
+            lYshopcardLsit.setVisibility(View.GONE);
+            mPopupWindow.dismiss();
+        }
+        else {
+            lYshopcardLsit.setVisibility(View.VISIBLE);
+            showPopupWindow();
+        }
+
+        isShopcardShow=!isShopcardShow;
+    }
+
+
+    public void showPopupWindow(){
+        lyshopCard.post(new Runnable() {
+            @Override
+            public void run() {  //这个是购物车外的阴影效果 要post才可以获取到Measure后的高
+                mPopupWindow.setHeight(mFrameLayout.getHeight()-lyshopCard.getHeight());
+                mPopupWindow.showAtLocation(mFrameLayout,Gravity.TOP,0,0);
+            }
+        });
+
+    }
+    public boolean isShopcardShow() {
+        return isShopcardShow;
+    }
+
+    public void setShopcardShow(boolean shopcardShow) {
+        isShopcardShow = shopcardShow;
+    }
 }
