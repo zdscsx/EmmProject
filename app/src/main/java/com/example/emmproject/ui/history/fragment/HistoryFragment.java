@@ -58,12 +58,13 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter>  implements 
 
     @Override
     protected void initView() {
-        tab.setTabData(new String[]{"全部","立等可取","预订订单"});//tab标题
+        tab.setTabData(new String[]{"全部","立等可取","已完成"});//tab标题
         tab.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
                 nowPage=position;
-
+                mHistoryBeans.clear();
+                mHihstoryAdapter.notifyDataSetChanged();
                 mPresenter.getHistoryList(position);
 
             }
@@ -82,7 +83,7 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter>  implements 
     }
 
     public void getData(){
-        mPresenter.getHistoryList(0);
+        mPresenter.getHistoryList(nowPage);
     }
 
    private void initRecyclerView(){
@@ -134,4 +135,5 @@ public class HistoryFragment extends BaseFragment<HistoryPresenter>  implements 
         mHihstoryAdapter.notifyDataSetChanged();
 
     }
+
 }

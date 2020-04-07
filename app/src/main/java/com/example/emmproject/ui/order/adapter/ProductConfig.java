@@ -56,26 +56,31 @@ public class ProductConfig implements ILinkageSecondaryAdapterConfig {
         StoreFoodBean.FoodListBean food=foodItem.getFoodListBean();
 
         if (!item.isHeader){
-            ImageView imageView=(ImageView) holder.getView(R.id.iv_second_product);
-            TextView contentTv=(TextView) holder.getView(R.id.tv_second_content);
-            TextView nameTv=(TextView )holder.getView(R.id.tv_second_title);
-            TextView priceTv=(TextView)holder.getView(R.id.tv_second_cost);
-            priceTv.setText(food.getPrice());
-            RoundedCorners roundedCorners=new RoundedCorners(Constants.ROUND_CORNERS);
-            RequestOptions coverRequestOptions = new RequestOptions()
-                    .transforms(new CenterCrop(),roundedCorners);
-            Glide.with(mContext).load(food.getMainImage()) .apply(coverRequestOptions).into(imageView);
-            contentTv.setText(food.getIntroduction());
-            nameTv.setText(food.getName());
-            ImageButton addButton=(ImageButton) holder.getView(R.id.bt_order_add);
-            ImageButton reduceButton=(ImageButton) holder.getView(R.id.bt_order_reduce);
-            TextView quantityTv=(TextView) holder.getView(R.id.tv_order_quantity);
-
-            holder.itemView.setOnClickListener(o->
-                    new OrderDialog(mContext,(ElemeGroupedItem) item,mShopCardList,callback).showOrderDialog());
-            if (!foodItem.hasFoodOption()){
-
+            if (foodItem.isEmpty()){  //是一个空视图
+                holder.getView(R.id.rl_order_product).setVisibility(View.GONE);
+                holder.getView(R.id.tv_second_tip).setVisibility(View.VISIBLE);
             }
+            else {
+                ImageView imageView = (ImageView) holder.getView(R.id.iv_second_product);
+                TextView contentTv = (TextView) holder.getView(R.id.tv_second_content);
+                TextView nameTv = (TextView) holder.getView(R.id.tv_second_title);
+                TextView priceTv = (TextView) holder.getView(R.id.tv_second_cost);
+                priceTv.setText(food.getPrice());
+                RoundedCorners roundedCorners = new RoundedCorners(Constants.ROUND_CORNERS);
+                RequestOptions coverRequestOptions = new RequestOptions()
+                        .transforms(new CenterCrop(), roundedCorners);
+                Glide.with(mContext).load(food.getMainImage()).apply(coverRequestOptions).into(imageView);
+                contentTv.setText(food.getIntroduction());
+                nameTv.setText(food.getName());
+                ImageButton addButton = (ImageButton) holder.getView(R.id.bt_order_add);
+                ImageButton reduceButton = (ImageButton) holder.getView(R.id.bt_order_reduce);
+                TextView quantityTv = (TextView) holder.getView(R.id.tv_order_quantity);
+
+                holder.itemView.setOnClickListener(o ->
+                        new OrderDialog(mContext, (ElemeGroupedItem) item, mShopCardList, callback).showOrderDialog());
+                if (!foodItem.hasFoodOption()) {
+
+                }
     /*        if (((ElemeGroupedItem.ItemInfo) item.info).getQuantity()>0)
             { reduceButton  .setVisibility(View.VISIBLE);
                 quantityTv.setVisibility(View.VISIBLE);
@@ -108,7 +113,7 @@ public class ProductConfig implements ILinkageSecondaryAdapterConfig {
                     callback.onReduceItem(elemeGroupedItem);
                 }
             });*/
-
+            }
 
         }
 
@@ -118,9 +123,9 @@ public class ProductConfig implements ILinkageSecondaryAdapterConfig {
 
     @Override
     public void onBindHeaderViewHolder(LinkageSecondaryHeaderViewHolder holder, BaseGroupedItem item) {
-    TextView header=(TextView)  holder.itemView.findViewById(R.id.tv_order_header);
-    header.setText(item.header);
-    header.setTextColor(mContext.getResources().getColor(R.color.black ));
+        TextView header=(TextView)  holder.itemView.findViewById(R.id.tv_order_header);
+        header.setText(item.header);
+        header.setTextColor(mContext.getResources().getColor(R.color.black ));
 
     }
 

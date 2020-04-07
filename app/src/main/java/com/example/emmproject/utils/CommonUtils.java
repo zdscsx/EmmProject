@@ -11,7 +11,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.emmproject.R;
+import com.example.emmproject.app.Constants;
 import com.example.emmproject.app.EmmApplication;
 import com.example.emmproject.core.http.EmmApis;
 import com.google.android.material.snackbar.Snackbar;
@@ -22,6 +29,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 import static com.luck.picture.lib.permissions.RxPermissions.TAG;
 
@@ -156,5 +164,14 @@ public class CommonUtils {
         return m.matches();
     }
 
+    public static RequestOptions getRoundOption(){
+
+        RoundedCorners roundedCorners=new RoundedCorners(Constants.ROUND_CORNERS);
+
+        RequestOptions coverRequestOptions = new RequestOptions()
+            .transforms(new CenterCrop(),roundedCorners);
+        return coverRequestOptions;
+
+    }
 
 }

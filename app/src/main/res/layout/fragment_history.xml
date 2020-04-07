@@ -34,12 +34,16 @@
      >
 
     </com.flyco.tablayout.SegmentTabLayout>
+
+
     <include layout="@layout/layout_empty"
         android:visibility="gone"
         />
   <androidx.recyclerview.widget.RecyclerView
+      android:overScrollMode="never"
       android:layoutAnimation="@anim/recyclerview_layout_animation"
       android:id="@+id/rv_history_orderlist"
       android:layout_width="match_parent"
       android:layout_height="match_parent"/>
+
 </LinearLayout>

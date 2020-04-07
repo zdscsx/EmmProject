@@ -69,7 +69,8 @@ public class VerifyCodeActivity extends BaseActivity<VerifyCodePresenter> implem
     protected void initEventAndData() {
        mPhone=getIntent().getStringExtra("phone"); //获取手机号
        message=getIntent().getStringExtra("message");
-       mTvPhone.setText("发送验证码");
+       mTvPhone.setText(mPhone);
+
        sendTv.performClick();
        phoneCode.setOnVCodeCompleteListener(new PhoneCode.OnVCodeInputListener(){
            @Override

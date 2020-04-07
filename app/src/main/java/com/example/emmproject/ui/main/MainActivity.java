@@ -64,11 +64,7 @@ public class MainActivity extends BaseActivity<MainPresenter > implements MainCo
                 mOrderFragment.setMarkLocation(markLocationBean);
             }
 
-
-
         }
-
-
 
     @Override
     protected int getLayoutId() {
@@ -85,7 +81,6 @@ public class MainActivity extends BaseActivity<MainPresenter > implements MainCo
         mPresenter.refreshToken();
         initViewpage();
         requestPermissions();
-       // mHistoryFragment.getData();
     }
 
 
@@ -122,12 +117,10 @@ public class MainActivity extends BaseActivity<MainPresenter > implements MainCo
 
 
     public void getLocation(){
-
         TencentLocationListener tencentLocationListener=new TencentLocationListener() {  //定位监听 获取当前位置
             @Override
             public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
                  mLatLng=new LatLng(tencentLocation.getLatitude(),tencentLocation.getLongitude());
-                 LogUtils.logd(mLatLng.toString()+" "+mLatLng.getLatitude());
                  TencentLocationManager.getInstance(MainActivity.this).removeUpdates(this);
                  mPresenter.getMarkLocation(mLatLng);
             }
@@ -165,7 +158,6 @@ public class MainActivity extends BaseActivity<MainPresenter > implements MainCo
                 if (position==1)
                     mHistoryFragment.getData();
 
-
             }
 
             @Override
@@ -179,6 +171,11 @@ public class MainActivity extends BaseActivity<MainPresenter > implements MainCo
     public void showLocation(MarkLocationBean locationBean) {
         mOrderFragment.setMarkLocation(locationBean);
 
+    }
+
+    @Override
+    public void getLocationFail() {
+        mOrderFragment.showError();
     }
 }
 

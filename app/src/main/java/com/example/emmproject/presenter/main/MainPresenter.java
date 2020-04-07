@@ -70,6 +70,12 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
                                            LogUtils.loge(e);
                                        }
                                    }
+
+                                   @Override
+                                   public void onFail(String cause) {
+                                       super.onFail(cause);
+                                       mView.getLocationFail();
+                                   }
                                }
                 ));
     }

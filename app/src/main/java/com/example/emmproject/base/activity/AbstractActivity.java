@@ -57,4 +57,20 @@ public abstract class AbstractActivity extends AppCompatActivity {
      */
     protected abstract void initEventAndData();
 
+    /**
+     * showNormal
+     */
+    public void showNormal() {
+
+    }
+
+    /**
+     * Show error
+     */
+  public  void showError(){}
+
+    /**
+     * Show loading
+     */
+
 }

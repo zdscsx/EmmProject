@@ -116,4 +116,10 @@ dependencies {
 
     // 圆角按钮
     implementation 'com.github.czy1121:roundbutton:1.1.0'
+    //2维码
+    implementation 'com.king.zxing:zxing-lite:1.1.7'
+    api 'androidx.appcompat:appcompat:1.1.0'
+    api 'com.google.zxing:core:3.3.3'
+
+
 }

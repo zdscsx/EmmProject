@@ -16,6 +16,7 @@ import com.example.emmproject.R;
 import com.example.emmproject.core.bean.order.Food;
 import com.example.emmproject.core.bean.order.FoodBean;
 import com.example.emmproject.core.bean.order.PrePayInfoBean;
+import com.example.emmproject.utils.CommonUtils;
 
 import java.util.ArrayList;
 
@@ -48,8 +49,9 @@ public class SimpleFoodAdapter  extends RecyclerView.Adapter<SimpleFoodAdapter.V
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
        Food foodBean=mFoodListBeans.get(position);
-        Glide.with(mContext).applyDefaultRequestOptions(RequestOptions.circleCropTransform())
-                .load(foodBean.getMainImage())
+     Glide.with(mContext).applyDefaultRequestOptions(RequestOptions.circleCropTransform())
+             .load(foodBean.getMainImage()).apply(CommonUtils.getRoundOption())
+
                 .placeholder(R.mipmap.imageview_defaultavatar)
                 .error(R.mipmap.imageview_defaultavatar).into(holder.ivPic);
         holder.tvName.setText(foodBean.getFoodName());

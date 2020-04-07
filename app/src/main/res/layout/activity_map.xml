@@ -5,6 +5,11 @@
     android:orientation="vertical">
   <include layout="@layout/toolbar"/>
 
+<LinearLayout
+    android:orientation="vertical"
+    android:id="@+id/ly_map_error"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.tencent.tencentmap.mapsdk.map.MapView
         android:id="@+id/map"
@@ -17,5 +22,6 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"/>
 
+</LinearLayout>
 
 </LinearLayout>

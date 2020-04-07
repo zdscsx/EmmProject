@@ -19,8 +19,10 @@ import android.widget.Toolbar;
 
 import com.example.emmproject.R;
 import com.example.emmproject.app.EmmApplication;
+import com.example.emmproject.base.fragment.BaseRootFragment;
 import com.example.emmproject.core.bean.order.MarkLocationBean;
 import com.example.emmproject.core.bean.order.PrePayInfoBean;
+import com.example.emmproject.ui.main.LoginActivity;
 import com.example.emmproject.ui.order.activity.SubmitOrderActivity;
 import com.example.emmproject.ui.order.adapter.ProductConfig;
 import com.example.emmproject.ui.order.adapter.ShopConfig;
@@ -44,7 +46,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implements OrderFragmentContract.View , OrderFragmentContract.ItemChangeCallback<ShopCardFoodBean> {
+public class OrderFragment extends BaseRootFragment<OrderFragmentPresenter> implements OrderFragmentContract.View , OrderFragmentContract.ItemChangeCallback<ShopCardFoodBean> {
 
 
     @BindView(R.id.lr_order_list)
@@ -126,17 +128,17 @@ public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implemen
 //                SearchActivity.startActivity(getContext());
 //                break;
             case R.id.bt_order_pay:
-                 mPresenter.submitOrder(mLocationBean.getChargeId(),shoppingCardList);
+                mPresenter.submitOrder(mLocationBean.getChargeId(),shoppingCardList);
                 break;
             case R.id.view_order_showshoppcard:
                 changeShopCardState();
-                 break;
+                break;
             case R.id.tv_order_clear:
                 shoppingCardList.clear();
                 quantity=0;
                 changeShopCardQuantity();
                 if (isShopcardShow)
-                changeShopCardState();
+                    changeShopCardState();
 
         }
     }
@@ -149,6 +151,7 @@ public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implemen
 
     @Override
     protected void initEventAndData() {
+        super.initEventAndData();
         initRecyclerView();
         mPopupview=LayoutInflater.from(getActivity()).inflate(R.layout.popupwindow_transparent,null,false);
         mPopupview.setOnClickListener(o-> changeShopCardState());//点击view即购物车外面购物车消失
@@ -159,18 +162,31 @@ public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implemen
     }
 
     @Override
+    public int getNornalId() {
+        return R.id.ly_order_normal;
+    }
+
+    @Override
+    public void reload() {
+        mPresenter.getMarkLocation();
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
     }
 
     public void setMarkLocation(MarkLocationBean markLocation){
+        showNormal();
         if (!markLocation.equals(mLocationBean))//换了充电桩就清空购物车
+        {
             cleanShopCard();
+        }
         mLocationBean=markLocation;
         tvLocation.setText(mLocationBean.getName());
         if (markLocation.getDistance()!=0)
-        tvDistance.setText("距离你"+markLocation.getDistance()+"km");
+            tvDistance.setText("距离你"+markLocation.getDistance()+"km");
         mPresenter.getProduct(mLocationBean.getChargeId());
 
 
@@ -188,17 +204,22 @@ public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implemen
         SubmitOrderActivity.startActivity(getActivity(),prePayInfoBean,mLocationBean);
     }
 
+    @Override
+    public void toLogin() {
+        LoginActivity.startActivity(getActivity());
+    }
+
 
     @Override
     public void onAddItem(ShopCardFoodBean elemeGroupedItem) {
 
         elemeGroupedItem.changeQuantity(true);
-       if (!shoppingCardList.contains(elemeGroupedItem))
+        if (!shoppingCardList.contains(elemeGroupedItem))
             shoppingCardList.add(elemeGroupedItem);
-       if(isShopcardShow){
+        if(isShopcardShow){
 
-           shoppingCardRecyclerView.scrollToPosition(shoppingCardList.size()-1);
-       }
+            shoppingCardRecyclerView.scrollToPosition(shoppingCardList.size()-1);
+        }
         quantity++;
         changeShopCardQuantity();
     }
@@ -215,10 +236,10 @@ public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implemen
                 }
             }
             else {
-            if (isShopcardShow){
-                mPopupWindow.dismiss();
-                showPopupWindow();
-            }}
+                if (isShopcardShow){
+                    mPopupWindow.dismiss();
+                    showPopupWindow();
+                }}
         }
         quantity--;
         changeShopCardQuantity();
@@ -265,9 +286,13 @@ public class OrderFragment extends BaseFragment<OrderFragmentPresenter> implemen
     }
 
     private void cleanShopCard(){
+        quantity=0;
+        numberTv.setText(quantity.toString());
         shoppingCardList.clear();
         shoppingCardAdapter.notifyDataSetChanged();
     }
+
+
     public boolean isShopcardShow() {
         return isShopcardShow;
     }

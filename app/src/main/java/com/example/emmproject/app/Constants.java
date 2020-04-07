@@ -22,9 +22,9 @@ public class Constants {
  public static final int ORDER_STATUS_FINISH=3;
 
 //这个是客户端的tab 状态对应的int
- public static final int ORDER_STATUS_ALL=0;
- public static final int ORDER_STATUS_WAITTAKE=1;
- public static final int ORDER_STATUS_BOOK=2;
+ public static final int ORDER_CLIENT_STATUS_ALL=0;
+ public static final int ORDER_CLIENT__STATUS_WAITTAKE=1;
+ public static final int ORDER_CLIENT_STATUS_FINISH=2;
 // AsyncTask
 
  public static final String APP_ID = "wx88888888";

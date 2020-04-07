@@ -11,7 +11,7 @@ public class LogUtils {
     }
 
    public static   void loge(Throwable e){
-        Log.e("LogUtils", "loge:    cause:"+e.getCause()+ "  message"+e.getMessage());
+        Log.e("LogUtils", "loge: cause:"+e.getCause()+ "  message"+e.getMessage());
     }
 
     public static <T> void logGson(T o){

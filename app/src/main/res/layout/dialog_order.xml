@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:text="产品描述"
         android:textSize="@dimen/textview_size_normal"
         android:textColor="@color/black"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/tv_orderdialog_introduce"
-        android:textSize="@dimen/textview_size_small"
+        android:textSize="@dimen/textview_size_min"
         android:text="好吃实惠好吃实惠好吃实惠好吃惠好吃实惠好吃实惠好吃实惠ddddddd的宫保鸡丁"
         android:maxLines="3"
         android:layout_marginTop="5dp"

@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.example.emmproject.R;
+import com.example.emmproject.base.activity.BaseRootActivity;
 import com.example.emmproject.ui.order.adapter.MarkListAdapter;
 import com.example.emmproject.base.activity.BaseActivity;
 import com.example.emmproject.contract.order.MapContract;
@@ -35,7 +36,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MapActivity extends  BaseActivity<MapPresenter> implements  MapContract.View {
+public class MapActivity extends BaseRootActivity<MapPresenter> implements  MapContract.View {
 
 
     @BindView(R.id.rv_map_marklist)
@@ -101,6 +102,7 @@ public class MapActivity extends  BaseActivity<MapPresenter> implements  MapCont
 
     @Override
     protected void initEventAndData() {
+        super.initEventAndData();
         requestPermissions();
 
         mMarkLocationBeans=new ArrayList<>();
@@ -130,6 +132,16 @@ public class MapActivity extends  BaseActivity<MapPresenter> implements  MapCont
 
     }
 
+    @Override
+    public int getNornalId() {
+        return R.id.ly_map_error;
+    }
+
+    @Override
+    public void reload() {
+        mPresenter.getMarkLocation();
+    }
+
     public void getLocation(){
 
         TencentLocationListener tencentLocationListener=new TencentLocationListener() {  //定位监听 获取当前位置
@@ -152,6 +164,7 @@ public class MapActivity extends  BaseActivity<MapPresenter> implements  MapCont
 
     @Override
     public void setMarketList(MarkLocationBean[] locationBeans) {
+        showNormal();
         mMarkLocationBeans.clear();
         Collections.addAll(mMarkLocationBeans,locationBeans);
         mMarkListAdapter.notifyDataSetChanged();

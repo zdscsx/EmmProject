@@ -10,6 +10,8 @@ public interface MainContract {
     interface View extends AbstractView{
 
         void showLocation(MarkLocationBean locationBean);
+
+        void getLocationFail();
     }
 
     interface Presenter extends AbstractPresenter<View>{

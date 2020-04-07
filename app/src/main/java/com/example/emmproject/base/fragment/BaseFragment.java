@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.example.emmproject.base.presenter.AbstractPresenter;
 import com.example.emmproject.base.view.AbstractView;
@@ -22,10 +23,12 @@ public abstract class BaseFragment<T extends AbstractPresenter> extends Abstract
     @Inject
     protected T mPresenter;
 
+    FragmentActivity mFragmentActivity;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        mFragmentActivity=(FragmentActivity) context;
     }
 
     @Nullable
@@ -59,5 +62,17 @@ public abstract class BaseFragment<T extends AbstractPresenter> extends Abstract
     public void cancelWaiting(){
         WaitDialog.dismiss();
     }
+    /**
+     * showNormal
+     */
+    public void showNormal(){}
 
+    /**
+     * Show error
+     */
+    public void showError(){}
+
+    /**
+     * Show loading
+     */
 }

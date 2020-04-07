@@ -22,6 +22,7 @@ import com.example.emmproject.contract.mine.UserInfoContract;
 import com.example.emmproject.core.bean.history.HistoryIntegralBean;
 import com.example.emmproject.core.bean.mine.ExchangeRequestBean;
 import com.example.emmproject.core.bean.mine.IntegralBean;
+import com.example.emmproject.core.bean.mine.User;
 import com.example.emmproject.presenter.mine.UserInfoPresenter;
 import com.example.emmproject.ui.mine.adapter.IntrgralAdapter;
 import com.example.emmproject.utils.CommonUtils;
@@ -29,7 +30,11 @@ import com.example.emmproject.utils.DialogUtils;
 import com.example.emmproject.utils.LogUtils;
 import com.example.emmproject.widget.MyBounceInterpolator;
 import com.flyco.tablayout.CommonTabLayout;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.v3.CustomDialog;
+import com.kongzue.dialog.v3.MessageDialog;
 
 import java.util.ArrayList;
 
@@ -58,7 +63,10 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter > implement
     @BindView(R.id.ly_empty)
     RelativeLayout lyEmpty;
     @BindView(R.id.tv_empty_tip)
-     TextView tvEmpty;
+    TextView tvEmpty;
+
+    @BindView(R.id.tv_userinfo_name)
+    TextView tvName;
 
 
 
@@ -66,7 +74,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter > implement
     private IntrgralAdapter mIntrgralAdapter;
     private ArrayList<HistoryIntegralBean >mIntegralBeans;
 
-    @OnClick({R.id.rl_userinfo_birthday,R.id.rl_userinfo_year,R.id.ly_userinfo_edit,
+    @OnClick({R.id.rl_userinfo_birthday,R.id.rl_userinfo_year,R.id.ly_userinfo_edit,R.id.ibt_toolbar_back,
             R.id.tv_userinfo_rule,R.id.tv_userinfo_get,R.id.tv_userinfo_reduce,R.id.rl_userinfo_exchange})
     void onClick(View  view){
         switch (view.getId()){
@@ -90,8 +98,8 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter > implement
             case R.id.tv_userinfo_rule:
                 DialogUtils.showExplain(this,"查看规则",
                         "在本平台上每消费10元可积累1颗星星(每1元0.1颗星星)，每50颗星星可以兑换一张无门槛10元现金优惠券。该优惠券的有效期自下发之时起为一个月，过期作废。星星不设有效期，可持续积攒。请关注星星系统后续更多的活动。\n" +
-                        "\n" +
-                        "有任何疑问请咨询充电场站工作人员。");
+                                "\n" +
+                                "有任何疑问请咨询充电场站工作人员。");
                 break;
             case R.id.tv_userinfo_get:
                 if (!isSelectGet){
@@ -100,15 +108,38 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter > implement
                 mPresenter.queryIntrgalHistory(Constants.INTEGRAL_ADD);
                 isSelectGet=true;
                 break;
-             case R.id.tv_userinfo_reduce:
-                 mPresenter.queryIntrgalHistory(Constants.INTEGRAL_REDUCE);
-                 if (isSelectGet){
-                     startAniamtionToX(tvGet.getMeasuredWidth());
-                 }
-                 isSelectGet=false;
-                 break;
+            case R.id.tv_userinfo_reduce:
+                mPresenter.queryIntrgalHistory(Constants.INTEGRAL_REDUCE);
+                if (isSelectGet){
+                    startAniamtionToX(tvGet.getMeasuredWidth());
+                }
+                isSelectGet=false;
+                break;
             case R.id.rl_userinfo_exchange:
-              mPresenter.  queryIntegralCoupons();
+                MessageDialog.build(UserInfoActivity.this)
+                        .setStyle(DialogSettings.STYLE.STYLE_KONGZUE)
+                        .setTheme(DialogSettings.THEME.LIGHT)
+                        .setCancelButtonDrawable(R.drawable.bg_button_outline)
+                        .setOkButtonDrawable(R.drawable.bg_button_outline)
+                        .setTitle("\n确定使用50积分兑换优惠卷吗?")
+                        .setMessage("")
+                        .setOkButton("确定", new OnDialogButtonClickListener() {
+                            @Override
+                            public boolean onClick(BaseDialog baseDialog, View v) {
+                                mPresenter.  queryIntegralCoupons();
+                                baseDialog.doDismiss();
+                                return false;
+                            }
+
+                        })
+                        .setCancelButton("取消", new OnDialogButtonClickListener() {
+                            @Override
+                            public boolean onClick(BaseDialog baseDialog, View v) {
+                                baseDialog.doDismiss();
+                                return false;
+                            }
+                        })
+                        .show();
               /*  ExchangeRequestBean exchangeRequestBean=new ExchangeRequestBean();
                 exchangeRequestBean.setQuantity(5);
                 exchangeRequestBean.setCouponId(0);
@@ -118,6 +149,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter > implement
                 exchangeRequestBean.setCouponId(2);
                 mPresenter.exchangeCoupons(exchangeRequestBean);*/
                 break;
+            case R.id.ibt_toolbar_back:finish();
         }
 
     }
@@ -144,11 +176,17 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter > implement
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.getUser();
+    }
+
+    @Override
     protected void initEventAndData() {
         mIntegralBeans=new ArrayList<>();
         mIntrgralAdapter = new IntrgralAdapter(mIntegralBeans);
         rvIntegralList.setLayoutManager(new LinearLayoutManager(this));
-         rvIntegralList.setAdapter(mIntrgralAdapter);
+        rvIntegralList.setAdapter(mIntrgralAdapter);
         mPresenter.getIntegral();
         mPresenter.queryIntrgalHistory(Constants.INTEGRAL_ADD);
     }
@@ -157,16 +195,16 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter > implement
     @Override
     public void showIntegral(IntegralBean integralBean) {
 
-            String integral=integralBean.getIntegral();
-            String covertIntegral=integralBean.getCovertIntegral();
-            tvIntegral.setText(integral);
-            String[] cintegral =integralBean.getCovertIntegral().split("\\.");
-            tvBigIntegral.setText(cintegral[0]+".");
-            tvSamllIntegral.setText(cintegral[1]);
-            integral= integral=integral.replace(",","");
-            covertIntegral= covertIntegral.replace(",","");
-            mProgressBar.setMax((int) (CommonUtils.stringToFloat(integral)*100));
-            mProgressBar.setProgress((int)(CommonUtils.stringToFloat(integral)*100)-(int) CommonUtils.stringToFloat(covertIntegral)*100);
+        String integral=integralBean.getIntegral();
+        String covertIntegral=integralBean.getCovertIntegral();
+        tvIntegral.setText(integral);
+        String[] cintegral =integralBean.getCovertIntegral().split("\\.");
+        tvBigIntegral.setText(cintegral[0]+".");
+        tvSamllIntegral.setText(cintegral[1]);
+        integral= integral=integral.replace(",","");
+        covertIntegral= covertIntegral.replace(",","");
+        mProgressBar.setMax((int) (CommonUtils.stringToFloat(integral)*100));
+        mProgressBar.setProgress((int)(CommonUtils.stringToFloat(integral)*100)-(int) CommonUtils.stringToFloat(covertIntegral)*100);
 
 
     }
@@ -182,9 +220,13 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter > implement
 
     @Override
     public void showEmpty() {
-
         lyEmpty.setVisibility(View.VISIBLE);
         tvEmpty.setText("暂无积分记录");
         rvIntegralList.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showUser(User user) {
+        tvName.setText(user.getUsername());
     }
 }

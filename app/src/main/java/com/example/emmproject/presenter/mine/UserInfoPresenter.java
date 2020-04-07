@@ -20,66 +20,74 @@ import javax.inject.Inject;
 import io.reactivex.functions.Predicate;
 
 public class UserInfoPresenter extends BasePresenter<UserInfoContract.View> implements UserInfoContract.Presenter {
-   private DataManager mDataManager;
+    private DataManager mDataManager;
 
+    private int laststate;
 
-   @Inject
+    @Inject
     public UserInfoPresenter(DataManager mDataManager) {
         this.mDataManager = mDataManager;
     }
 
-
+    public void getUser(){
+        mView.showUser(mDataManager.getUser());
+    }
 
     @Override
     public void getIntegral() {
-       addSubscribe( mDataManager.getIntegral()
-       .compose(RxUtils.rxSchedulerHelper()).subscribeWith(new TipObserver<IntegralBean>(mView){
-                   @Override
-                   public void onSucceed(BaseResponse<IntegralBean> integralBeanBaseResponse) {
-                       super.onSucceed(integralBeanBaseResponse);
-                       mView.showIntegral(integralBeanBaseResponse.getData());
-                   }
-               }));
+        addSubscribe( mDataManager.getIntegral()
+                .compose(RxUtils.rxSchedulerHelper()).subscribeWith(new TipObserver<IntegralBean>(mView){
+                    @Override
+                    public void onSucceed(BaseResponse<IntegralBean> integralBeanBaseResponse) {
+                        super.onSucceed(integralBeanBaseResponse);
+                        mView.showIntegral(integralBeanBaseResponse.getData());
+                    }
+                }));
     }
 
     @Override
     public void queryIntrgalHistory(int state) {
-       addSubscribe(mDataManager.queryIntegralHistory()
-       .compose(RxUtils.rxSchedulerHelper())
+        laststate=state;
+        addSubscribe(mDataManager.queryIntegralHistory()
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new TipObserver<ArrayList<HistoryIntegralBean>>(mView){
 
-       .subscribeWith(new TipObserver<ArrayList<HistoryIntegralBean>>(mView){
+                    @Override
+                    public void onFail(String cause) {
+                        super.onFail(cause);
+                        mView.showEmpty();
+                    }
 
-           @Override
-           public void onFail(String cause) {
-               super.onFail(cause);
-               mView.showEmpty();
-           }
-
-           @Override
-           public void onSucceed(BaseResponse<ArrayList<HistoryIntegralBean>> arrayListBaseResponse) {
-               super.onSucceed(arrayListBaseResponse);
-               ArrayList<HistoryIntegralBean> integralBeans=new ArrayList<>();
-               for (HistoryIntegralBean integralBean:arrayListBaseResponse.getData()){
-                   if (integralBean.getStatus()==state)
-                       integralBeans.add(integralBean);
-               }
-               mView.showIntrgalList(integralBeans);
-           }
-       }));
+                    @Override
+                    public void onSucceed(BaseResponse<ArrayList<HistoryIntegralBean>> arrayListBaseResponse) {
+                        super.onSucceed(arrayListBaseResponse);
+                        if(arrayListBaseResponse.getData().size()==0)
+                            mView.showEmpty();
+                        else {
+                            ArrayList<HistoryIntegralBean> integralBeans=new ArrayList<>();
+                            for (HistoryIntegralBean integralBean:arrayListBaseResponse.getData()){
+                                if (integralBean.getStatus()==state)
+                                    integralBeans.add(integralBean);
+                            }
+                            mView.showIntrgalList(integralBeans);
+                        }}
+                }));
 
     }
 
     @Override
     public void exchangeCoupons(ExchangeRequestBean exchangeRequestBean) {
         addSubscribe(mDataManager.exchangeCoupons(exchangeRequestBean)
-        .compose(RxUtils.rxSchedulerHelper())
-        .subscribeWith(new TipObserver(mView){
-            @Override
-            public void onSucceed(BaseResponse baseResponse) {
-                super.onSucceed(baseResponse);
-                mView.showToast("兑换成功");
-            }
-        }));
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new TipObserver(mView){
+                    @Override
+                    public void onSucceed(BaseResponse baseResponse) {
+                        super.onSucceed(baseResponse);
+                        mView.showToast("兑换成功");
+                        getIntegral(); //兑换成功后更新信息
+                        queryIntrgalHistory(laststate);
+                    }
+                }));
     }
 
     @Override
@@ -96,7 +104,6 @@ public class UserInfoPresenter extends BasePresenter<UserInfoContract.View> impl
                             exchangeRequestBean.setQuantity(1);
                             exchangeCoupons(exchangeRequestBean);
                         }
-                        mView.showToast("查询成功");
 
                     }
                 }));

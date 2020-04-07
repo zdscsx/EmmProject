@@ -16,7 +16,7 @@
 
     <TextView
         android:textSize="25sp"
-        android:text="欢迎登陆美团"
+        android:text="欢迎登陆鲲鹏悦行"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <LinearLayout

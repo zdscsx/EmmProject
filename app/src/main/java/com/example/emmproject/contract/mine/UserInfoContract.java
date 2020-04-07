@@ -5,6 +5,7 @@ import com.example.emmproject.base.view.AbstractView;
 import com.example.emmproject.core.bean.history.HistoryIntegralBean;
 import com.example.emmproject.core.bean.mine.ExchangeRequestBean;
 import com.example.emmproject.core.bean.mine.IntegralBean;
+import com.example.emmproject.core.bean.mine.User;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public interface UserInfoContract {
        void showIntrgalList(ArrayList<HistoryIntegralBean> integralBeans);
 
        void showEmpty();
+
+       void showUser(User user);
 
 
     }
@@ -29,5 +32,6 @@ public interface UserInfoContract {
         void exchangeCoupons(ExchangeRequestBean exchangeRequestBean);
 
         void queryIntegralCoupons();
+
     }
 }

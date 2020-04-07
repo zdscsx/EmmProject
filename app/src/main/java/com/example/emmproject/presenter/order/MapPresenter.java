@@ -24,7 +24,7 @@ public class MapPresenter extends BasePresenter<MapContract.View> implements Map
     @Override
     public void getMarkLocation() {
         addSubscribe(mDataManager.getMarkLocation().compose(RxUtils.rxSchedulerHelper())
-                .subscribeWith(new TipObserver<DataBean<MarkLocationBean>>(mView) {
+                .subscribeWith(new TipObserver<DataBean<MarkLocationBean>>(mView,true) {
             @Override
             public void onSucceed(BaseResponse<DataBean<MarkLocationBean>> dataBeanBaseResponse) {
                 super.onSucceed(dataBeanBaseResponse);

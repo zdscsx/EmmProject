@@ -26,5 +26,8 @@ public interface ChangeUserInfoContract {
         void changeUserInfo(User user);
 
         void logout();
+
+        void changeBirthday(long time);
+
     }
 }

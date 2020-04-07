@@ -3,12 +3,18 @@ package com.example.emmproject.ui.history.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.view.View;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.emmproject.R;
 import com.example.emmproject.app.Constants;
 import com.example.emmproject.base.activity.BaseActivity;
@@ -19,6 +25,8 @@ import com.example.emmproject.core.bean.order.Food;
 import com.example.emmproject.core.bean.order.FoodBean;
 import com.example.emmproject.presenter.history.OrderInfoPresenter;
 import com.example.emmproject.ui.order.adapter.SimpleFoodAdapter;
+import com.example.emmproject.utils.CommonUtils;
+import com.king.zxing.util.CodeUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +68,8 @@ public class OrderInfoActivity extends BaseActivity<OrderInfoPresenter> implemen
     TextView tvSubmitTime;
     @BindView(R.id.tv_toolbar_title)
     TextView tvtitle;
+    @BindView(R.id.iv_orderinfo_code)
+    ImageView ivCode;
 
 
     private SimpleFoodAdapter mSimpleFoodAdapter;
@@ -94,6 +104,7 @@ public class OrderInfoActivity extends BaseActivity<OrderInfoPresenter> implemen
 
     @Override
     protected void initEventAndData() {
+
         mOrderHistoryBean = (OrderHistoryBean) getIntent().getSerializableExtra("orderinfo");
         mOrderInfoBean = mOrderHistoryBean.getOrderInfo();
         mChargeInfoBean = mOrderHistoryBean.getChargeInfo();
@@ -116,7 +127,11 @@ public class OrderInfoActivity extends BaseActivity<OrderInfoPresenter> implemen
                 break;
             case Constants.ORDER_STATUS_WAITAKE:status="等待取餐";
                 tvTakeFoodCode.setVisibility(android.view.View.VISIBLE);
+                ivCode.setVisibility(android.view.View.VISIBLE);
                 tvTakeFoodCode.setText(mOrderInfoBean.getTakeFoodCode());
+                Bitmap logo= BitmapFactory.decodeResource(getResources(),R.mipmap.logo);
+                Bitmap codeBitmap= CodeUtils.createQRCode(mOrderInfoBean.getTakeFoodCode(),CommonUtils.dip2Px(150,this), logo);
+                Glide.with(ivCode).load(codeBitmap).into(ivCode);
                 break;
             default:status="已完成";
         }

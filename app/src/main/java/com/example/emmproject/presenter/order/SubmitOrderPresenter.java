@@ -37,7 +37,7 @@ public class SubmitOrderPresenter extends BasePresenter<SubmitOrderContract.View
 
     @Override
     public void startPayRequest(PayRequestBean payRequestBean) {
-        LogUtils.logGson("pay");
+        LogUtils.logGson(payRequestBean);
         addSubscribe(mDataManager.payRequest(payRequestBean).compose(RxUtils.rxSchedulerHelper())
          .subscribeWith(new TipObserver<WechatPayBean>(mView){
              @Override

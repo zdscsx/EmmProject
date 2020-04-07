@@ -36,11 +36,7 @@ public class VerifyCodePresenter extends BasePresenter<VerifyCodeContract.View >
                    @Override
                    public void onSucceed(BaseResponse baseResponse) {
                        super.onSucceed(baseResponse);
-                       try {
-                           mView.getCodeSuccess(baseResponse.getMessage());
-                       } catch (Exception e){
-                           LogUtils.loge(e);
-                       }
+                       mView.getCodeSuccess(baseResponse.getMessage());
 
                    }
        }));}
@@ -62,14 +58,15 @@ public class VerifyCodePresenter extends BasePresenter<VerifyCodeContract.View >
                             mView.verifySucceed();
                         }
                         else {
-                            mView.showToast(userResponse.message());
+                            mView.verifyFail();
+                            mView.showToast("验证失败");
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         mView.verifyFail();
-                        mView.showToast(e.getCause()+" "+e.getMessage());
+                        mView.showToast("验证失败");
 
                     }
 

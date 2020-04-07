@@ -5,10 +5,19 @@
     android:id="@+id/ly_order_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/iv_header_circle"
+        android:layout_centerVertical="true"
+         android:layout_alignParentLeft="true"
+        android:src="@mipmap/green_circle"
+        android:layout_marginLeft="10dp"
+        android:layout_width="10dp"
+        android:layout_height="10dp"/>
 <TextView
+    android:layout_toRightOf="@id/iv_header_circle"
     android:layout_centerVertical="true"
-    android:layout_marginLeft="10dp"
-    android:layout_alignParentLeft="true"
+    android:gravity="center"
+    android:layout_marginLeft="5dp"
     android:id="@+id/tv_order_header"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"/>

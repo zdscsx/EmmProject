@@ -14,6 +14,9 @@ public class TipObserver<T> extends BaseObserver<T> {
         super(mView, mMessage);
     }
 
+    public TipObserver(AbstractView mView, boolean showError) {
+        super(mView, showError);
+    }
     public TipObserver(AbstractView mView) {
         super(mView);
     }
@@ -39,13 +42,21 @@ public class TipObserver<T> extends BaseObserver<T> {
 
     }
 
+
     @Override
-    public void onFail(String cause) {
-        super.onFail(cause);
+    public void onFail(String cause, int code) {
+        super.onFail(cause, code);
         if(mMessage!=null){
             view.showErrorMessage(mMessage);
         }else
-            view.showToast(cause);
-    }
+        {
+            switch (code){
+                case 444: cause="网络请求失败，请稍后重试";
+                break;
+                case 997 : return;
 
+            }
+            view.showToast(cause);
+        }
+    }
 }

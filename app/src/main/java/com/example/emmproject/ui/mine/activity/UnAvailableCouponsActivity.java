@@ -49,11 +49,6 @@ public class UnAvailableCouponsActivity extends BaseActivity<UnavailableCouponsP
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_un_available_coupons);
-    }
 
    public static void startActivity(Context context){
        Intent intent=new Intent(context,UnAvailableCouponsActivity.class);

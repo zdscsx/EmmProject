@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.emmproject.app.Constants;
 import com.example.emmproject.core.bean.DataBean;
 import com.example.emmproject.core.bean.history.HistoryIntegralBean;
+import com.example.emmproject.core.bean.mine.ChangeUserinfoBean;
 import com.example.emmproject.core.bean.mine.ExchangeRequestBean;
 import com.example.emmproject.core.bean.order.ElemeGroupedItem;
 import com.example.emmproject.core.bean.main.LoginBean;
@@ -91,6 +92,14 @@ public class DataManager {
                 ArrayList <BaseGroupedItem<ElemeGroupedItem.ItemInfo>> arrayList=new ArrayList<>();
                 for (StoreFoodBean storeFoodBean:dataStoreFoodBeanBaseResponse.getData()){
                     arrayList.add( new ElemeGroupedItem(true,storeFoodBean.getStoreInfo().getName()));  //商家标题
+                    //因为商家菜单为空要显示一个提示，是有这里商品列表为空时加一个空item
+                    if (storeFoodBean.getFoodList()==null||storeFoodBean.getFoodList().size()==0){
+                        ElemeGroupedItem elemeGroupedItem
+                                =new ElemeGroupedItem(new ElemeGroupedItem.ItemInfo(true));
+                        elemeGroupedItem.setStoreInfoBean(storeFoodBean.getStoreInfo());
+                        elemeGroupedItem.setStoreId(storeFoodBean.getStoreId());
+                        arrayList.add(elemeGroupedItem);
+                    }
                     for (StoreFoodBean.FoodListBean food:storeFoodBean.getFoodList()){ //商品
                         ElemeGroupedItem elemeGroupedItem
                                 =new ElemeGroupedItem(new ElemeGroupedItem.ItemInfo(food.getName(),storeFoodBean.getStoreInfo().getName(),food));
@@ -183,13 +192,13 @@ public class DataManager {
                         for (OrderHistoryBean historyBean:baseResponse.getData().getOrderList()){
                             switch (businessStatus){
                                 case Constants
-                                        .ORDER_STATUS_ALL:orderHistoryBeans.add(historyBean);
+                                        .ORDER_CLIENT_STATUS_ALL:orderHistoryBeans.add(historyBean);
                                     break;
-                                case Constants.ORDER_STATUS_BOOK:
-                                    if (historyBean.getOrderInfo().getBusinessStatus()==Constants.ORDER_STATUS_WAITPAY)
+                                case Constants.ORDER_CLIENT_STATUS_FINISH:
+                                    if (historyBean.getOrderInfo().getBusinessStatus()==Constants.ORDER_STATUS_FINISH)
                                         orderHistoryBeans.add(historyBean);
                                     break;
-                                case Constants.ORDER_STATUS_WAITTAKE:
+                                case Constants.ORDER_CLIENT__STATUS_WAITTAKE:
                                     if (historyBean.getOrderInfo().getBusinessStatus()==Constants.ORDER_STATUS_WAITAKE)
                                         orderHistoryBeans.add(historyBean);
                                     break;
@@ -207,8 +216,7 @@ public class DataManager {
         return mHttpHelper.refreshToken(getrRefreshToken(),getToken());
     }
 
-   public Observable<BaseResponse<User>> changeInfo(User user){
-          LogUtils.logGson(user);
+   public Observable<BaseResponse> changeInfo(ChangeUserinfoBean user){
         return mHttpHelper.changeInfo(getToken(),user);
     }
 
@@ -258,7 +266,6 @@ public class DataManager {
     }
 
     String getToken(){
-        LogUtils.logd(mPreferenceHelper.getToken());
         return mPreferenceHelper.getToken();
     }
 

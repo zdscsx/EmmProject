@@ -2,9 +2,10 @@ package com.example.emmproject.core.bean.mine;
 
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CouponsBean {
+public class CouponsBean  implements Serializable{
 
 
     /**
@@ -145,7 +146,7 @@ public class CouponsBean {
         this.couponId = couponId;
     }
 
-    public static class TargeFoodsBean {
+    public static class TargeFoodsBean implements Serializable {
         /**
          * foodId : 2
          * foodName : 奶茶

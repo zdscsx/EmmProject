@@ -46,7 +46,12 @@ public class ElemeGroupedItem extends BaseGroupedItem<ElemeGroupedItem.ItemInfo>
     public static class ItemInfo extends BaseGroupedItem.ItemInfo {
 
         FoodListBean foodListBean;
+        boolean isEmpty;
 
+        public ItemInfo(boolean isEmpty) {
+            super(null, null);
+            this.isEmpty = isEmpty;
+        }
 
         public ItemInfo(String title, String group, FoodListBean foodListBean) {
             super(title, group);
@@ -67,7 +72,13 @@ public class ElemeGroupedItem extends BaseGroupedItem<ElemeGroupedItem.ItemInfo>
             return foodListBean.getFoodOption()!=null;
         }
 
+        public boolean isEmpty() {
+            return isEmpty;
+        }
 
+        public void setEmpty(boolean empty) {
+            isEmpty = empty;
+        }
     }
 
 

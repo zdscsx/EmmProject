@@ -1,5 +1,7 @@
 package com.example.emmproject.core.bean.mine;
 
+import androidx.annotation.Nullable;
+
 import com.example.emmproject.app.Constants;
 import com.google.gson.Gson;
 
@@ -121,5 +123,29 @@ public static final long serialVersionUID=536871008;
     }
 
 
+    @Override
+    public int hashCode() {
+        int hash=0;
+        hash+=getGender()*31+getUserId()*31+getBirthday().hashCode()+getUsername().hashCode()+getMotorcycleType().hashCode();
+
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(obj==null)
+            return false;
+        if (obj==this)
+            return true;
+        if (obj instanceof User){
+            User user=(User)obj;
+          return  (user.getGender()==getGender()&&user.getUserId()==getUserId()
+            &&user.getBirthday().equals(getBirthday())
+            &&user.getUsername().equals(getUsername())
+            &&user.getMotorcycleType()!=null&&user.getMotorcycleType().equals(getMotorcycleType()));//先利用&&判断是否为空
+
+        }
+        return false;
+    }
 }
 

@@ -6,6 +6,7 @@ import com.example.emmproject.core.BaseResponse;
 import com.example.emmproject.core.bean.DataBean;
 import com.example.emmproject.core.bean.history.HistoryIntegralBean;
 import com.example.emmproject.core.bean.main.LoginByPasswordBean;
+import com.example.emmproject.core.bean.mine.ChangeUserinfoBean;
 import com.example.emmproject.core.bean.mine.CouponsBean;
 import com.example.emmproject.core.bean.mine.ExchangeRequestBean;
 import com.example.emmproject.core.bean.order.MarkLocationBean;
@@ -21,6 +22,8 @@ import com.example.emmproject.core.bean.order.SubmitOrderBean;
 import com.example.emmproject.core.bean.order.WechatPayBean;
 
 import java.util.ArrayList;
+
+import javax.annotation.PostConstruct;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
@@ -58,7 +61,7 @@ public interface EmmApis {
     Observable<Response<MarkLocationBean[]>> getResponse(@Header("token") String token);
 
     @GET("charging-order/api/store/findAllStoreFood")
-    Observable<BaseResponse<StoreFoodBean[]>> getStoreFood(@Header("token") String token);
+    Observable<BaseResponse<StoreFoodBean[]>> getStoreFood(@Header("token") String token,@Query("chargeId") int charId );
 
     @Multipart
     @POST("charging-order/api/file/photo")
@@ -81,9 +84,9 @@ public interface EmmApis {
     Observable<BaseResponse<RefreshTokenBean>> refreshToken(@Field("refresh_token") String refreshToken,@Header("token" )String token,@Field("token") String t,@Field("sign") String app );
 
     @POST("charging-order/api/user/update")
-    Observable<BaseResponse<User>> changeInfo(@Header("token") String token,@Body User user);
+    Observable<BaseResponse> changeuserinfo(@Header("token") String token,@Body ChangeUserinfoBean changeUserinfoBean);
 
-    @POST(" charging-order/api/order/settle")
+    @POST("charging-order/api/order/settle")
     Observable<BaseResponse<PrePayInfoBean>> getOrderInfo(@Header("token") String token, @Header("timestamp") long timestamp, @Body SubmitOrderBean submitOrderBean);
 
     @GET("charging-order/api/user/logout/{phone}")

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.emmproject.R;
+import com.example.emmproject.app.Constants;
 import com.example.emmproject.base.activity.BaseActivity;
 import com.example.emmproject.contract.order.SubmitOrderContract;
 import com.example.emmproject.core.bean.mine.CouponsBean;
@@ -63,10 +64,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitOrderPresenter> impl
 
 
     private PrePayInfoBean mPrePayInfoBean;
-    private String actualPrice;
-    private String totalPrice;
+    private float actualPrice=0;
+    private float totalPrice=0;
     private String discountPrice;
-    private float total;
+    private int quantity=0;
     private String takeFoodTime;
     private CouponsBean mCouponsBean;
     private String mNote="早点睡";
@@ -98,7 +99,7 @@ public class SubmitOrderActivity extends BaseActivity<SubmitOrderPresenter> impl
                 customDatePicker1.show(now);
                 break;
             case R.id.bt_submit_pay:
-                PayRequestBean payRequestBean=new PayRequestBean(mPrePayInfoBean.getPreOrderId(),takeFoodTime,mNote,1,total+"",couponSelect);
+                PayRequestBean payRequestBean=new PayRequestBean(mPrePayInfoBean.getPreOrderId(),takeFoodTime,mNote, 1,totalPrice+"0",couponSelect);
                 mPresenter.startPayRequest(payRequestBean);
 
 
@@ -138,10 +139,10 @@ public class SubmitOrderActivity extends BaseActivity<SubmitOrderPresenter> impl
        tvName.setText(mPrePayInfoBean.getChargeInfo().getName());
        tvLocation.setText(mPrePayInfoBean.getChargeInfo().getAddress());
        tvPhone.setText(mPresenter.getPhone());
-       tvActualCount.setText(actualPrice);
-       tvTotal.setText(totalPrice);
-       tvDiscount.setText(discountPrice);
-       tvAll.setText("￥ "+total);
+       tvActualCount.setText("实付: ￥"+actualPrice);
+       tvTotal.setText("共"+quantity+"件商品,小计: ￥"+totalPrice);
+       tvDiscount.setText("优惠: ￥"+(totalPrice-actualPrice));
+       tvAll.setText("￥ "+totalPrice);
        tvTime.setText(takeFoodTime);
    }
 
@@ -153,18 +154,13 @@ public class SubmitOrderActivity extends BaseActivity<SubmitOrderPresenter> impl
     }
 
     void handlerData(){
-     total=0;
-     float actual=0;
-     int sum=0;
+
      couponSelect=new ArrayList<>();
      for (PrePayInfoBean.FoodListBean foodListBean:mPrePayInfoBean.getFoodList()){
-         sum+=foodListBean.getQuantity();
-         total+=Float.parseFloat(foodListBean.getPrice())*foodListBean.getQuantity();
-         actual+=foodListBean.getFinalSum();
+         quantity+=foodListBean.getQuantity();
+         totalPrice+=Float.parseFloat(foodListBean.getPrice())*foodListBean.getQuantity();
+         actualPrice+=foodListBean.getFinalSum();
      }
-      actualPrice="实付: ￥"+actual;
-      totalPrice="共"+sum+"件商品,小计: ￥"+total;
-      discountPrice="优惠: ￥"+(total-actual);
      for (CouponsBean couponsBean:mPrePayInfoBean.getAvailableCoupons()){
 
      }

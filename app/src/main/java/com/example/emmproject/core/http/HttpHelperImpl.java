@@ -5,6 +5,7 @@ import com.example.emmproject.core.bean.DataBean;
 import com.example.emmproject.core.bean.history.HistoryIntegralBean;
 import com.example.emmproject.core.bean.main.LoginBean;
 import com.example.emmproject.core.bean.main.LoginByPasswordBean;
+import com.example.emmproject.core.bean.mine.ChangeUserinfoBean;
 import com.example.emmproject.core.bean.mine.CouponsBean;
 import com.example.emmproject.core.bean.mine.ExchangeRequestBean;
 import com.example.emmproject.core.bean.order.MarkLocationBean;
@@ -60,7 +61,7 @@ public class HttpHelperImpl implements HttpHelper {
 
     @Override
     public Observable<BaseResponse<StoreFoodBean[]>> getStoreFood(String token, int storeId) {
-        return emmApis.getStoreFood(token);
+        return emmApis.getStoreFood(token,storeId);
     }
 
     @Override
@@ -94,8 +95,9 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse<User>> changeInfo(String token, User user) {
-        return emmApis.changeInfo(token,user);
+    public Observable<BaseResponse> changeInfo(String token, ChangeUserinfoBean user) {
+        LogUtils.logGson(user);
+        return emmApis.changeuserinfo(token,user);
     }
 
     @Override

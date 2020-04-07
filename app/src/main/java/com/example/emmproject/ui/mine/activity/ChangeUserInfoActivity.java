@@ -66,7 +66,9 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
 
     private User mUser=new User();
     private boolean hasChoiceBirthday;
-    @OnClick({R.id.rl_changeinfo_photo,R.id.rl_changeinfo_birthday,R.id.rl_changeinfo_name,R.id.bt_changeinfo_logout,R.id.sw_changeinfo_sex})
+    @OnClick({R.id.rl_changeinfo_photo,R.id.rl_changeinfo_birthday,
+            R.id.ibt_toolbar_back,
+            R.id.rl_changeinfo_name,R.id.bt_changeinfo_logout,R.id.sw_changeinfo_sex})
     void onClick(View view){
         switch (view.getId()){
             case R.id.rl_changeinfo_photo:
@@ -75,7 +77,7 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
                         .forResult(PictureConfig.CHOOSE_REQUEST);
                 break;
             case R.id.rl_changeinfo_birthday:
-                if(!hasChoiceBirthday){
+            if(!hasChoiceBirthday){
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
                     SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd",Locale.CHINA);
                     String now = sdf.format(new Date());
@@ -85,14 +87,14 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
                             String birthday=dateFormat.format(new Date(timestamp));
                             MessageDialog.build(ChangeUserInfoActivity.this)
                                     .setStyle(DialogSettings.STYLE.STYLE_MATERIAL)
-                                    .setTheme(DialogSettings.THEME.DARK)
+                                    .setTheme(DialogSettings.THEME.LIGHT)
                                     .setTitle("提示")
-                                    .setMessage("生日只能设置一次，是否确认修改为："+birthday)
+                                    .setMessage("\n生日只能设置一次，是否确认修改为："+birthday)
                                     .setOkButton("确定", new OnDialogButtonClickListener() {
                                         @Override
                                         public boolean onClick(BaseDialog baseDialog, View v) {
-                                            mUser.setBirthday(birthday);
-                                            mPresenter.changeUserInfo(mUser);
+                                           mPresenter.changeBirthday(timestamp);
+                                            baseDialog.doDismiss();
                                             return false;
                                         }
 
@@ -116,12 +118,15 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
                         .setOkButton("确定")
                         .setTitle("输入昵称")
                         .setMessage("")
+                        .setCancelButtonDrawable(R.drawable.bg_button_outline)
+                        .setOkButtonDrawable(R.drawable.bg_button_outline)
                         .setInputInfo(new InputInfo().setInputType(InputType.TYPE_CLASS_TEXT))
                         .setOnOkButtonClickListener(new OnInputDialogButtonClickListener() {
                             @Override
                             public boolean onClick(BaseDialog baseDialog, View v, String inputStr) {
                                 mUser.setUsername(inputStr);
                                 mPresenter.changeUserInfo(mUser);
+                                baseDialog.doDismiss();
                                 return true;
                             }
                         }).show();
@@ -129,6 +134,7 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
             case R.id.bt_changeinfo_logout:
                 mPresenter.logout();
                 break;
+            case R.id.ibt_toolbar_back:finish();
 
 
 
@@ -201,12 +207,15 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
         mSwitchSex.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                LogUtils.logd(isChecked+" check");
                 if (isChecked){                //选择男{
                     mUser.setGender(Constants.SEX_MAN);
+                    LogUtils.logd(isChecked+" "+mUser.getGender());
                 }
                 else {
                     mUser.setGender(Constants.SEX_WOMWN);
                 }
+
                 mPresenter.changeUserInfo(mUser);
             }
         });
@@ -231,7 +240,6 @@ public class ChangeUserInfoActivity extends BaseActivity<ChangeUserInfoPresenter
             hasChoiceBirthday = true;
         }
         tvBirthday.setText(hasChoiceBirthday?mUser.getBirthday():"未设置");
-
         mSwitchSex.setChecked(mUser.isMan());
 
     }

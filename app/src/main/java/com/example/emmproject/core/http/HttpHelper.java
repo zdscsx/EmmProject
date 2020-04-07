@@ -6,6 +6,7 @@ import com.example.emmproject.core.bean.DataBean;
 import com.example.emmproject.core.bean.history.HistoryIntegralBean;
 import com.example.emmproject.core.bean.main.LoginBean;
 import com.example.emmproject.core.bean.main.LoginByPasswordBean;
+import com.example.emmproject.core.bean.mine.ChangeUserinfoBean;
 import com.example.emmproject.core.bean.mine.CouponsBean;
 import com.example.emmproject.core.bean.mine.ExchangeRequestBean;
 import com.example.emmproject.core.bean.order.MarkLocationBean;
@@ -54,7 +55,7 @@ public interface HttpHelper {
       //刷新token
       Observable<BaseResponse<RefreshTokenBean>> refreshToken(String refreshToken,String token );
 
-      Observable<BaseResponse<User>> changeInfo(String token,User user);
+      Observable<BaseResponse> changeInfo(String token, ChangeUserinfoBean user);
       //点餐结算
       Observable<BaseResponse<PrePayInfoBean>> getOrderInfo(String token, long timestamp, SubmitOrderBean submitOrderBean);
 

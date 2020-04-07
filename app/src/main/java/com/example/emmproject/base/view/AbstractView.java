@@ -14,7 +14,19 @@ public interface AbstractView {
     void showSnackBar(String message);
 
     void showErrorMessage(String message);
+    /**
+     * showNormal
+     */
+    void showNormal();
 
+    /**
+     * Show error
+     */
+    void showError();
+
+    /**
+     * Show loading
+     */
 
     public  void  showWaiting();
 
